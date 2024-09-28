@@ -55,7 +55,7 @@ const FormSection: React.FC = () => {
 
   return (
     <div className="w-full mx-auto p-6 bg-white rounded shadow">
-      <p className="text-2xl font-semibold mb-4 text-center">撮影報告フォーム</p>
+      <p className="text-2xl font-semibold mb-8 text-center">撮影報告フォーム</p>
       <form onSubmit={handleSubmit}>
         <FormInput
           label="撮影開始時間"
@@ -107,7 +107,7 @@ const FormSection: React.FC = () => {
 const MemberPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header showExtras userName="テストユーザー"/>
       <main className="flex-grow flex flex-col items-center justify-center">
         <div className="md:flex-row md:space-x-10 md:items-start md:justify-center w-full max-w-2xl">
           <FormSection />

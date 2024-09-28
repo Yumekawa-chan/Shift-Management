@@ -86,7 +86,7 @@ const PastReportsSection: React.FC = () => {
 
   return (
     <div className="w-full mx-auto p-6 bg-white rounded shadow">
-      <p className="text-2xl font-semibold mb-4 text-center">過去の撮影報告</p>
+      <p className="text-2xl font-semibold mb-8 text-center">過去の撮影報告</p>
       {currentReports.map((report) => (
         <ReportItem key={report.id} report={report} />
       ))}
@@ -112,7 +112,7 @@ const PastReportsSection: React.FC = () => {
 const MemberPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header showExtras userName = "テストユーザー" />
       <main className="flex-grow flex flex-col items-center justify-center">
         <div className="md:flex-row md:items-start md:justify-center w-full max-w-2xl">
           <PastReportsSection />
