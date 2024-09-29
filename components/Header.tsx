@@ -1,11 +1,10 @@
-// TODO: リファクタリング
-
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { MdMenu } from "react-icons/md";
-import SideNav from "./SideNav";
-import Link from "next/link";
+import SideNav from "@/components/SideNav";
+import MenuItem from "@/components/common/MenuItem";
+import useBodyScrollLock from "@/hooks/useBodyScrollLock";
 
 interface HeaderProps {
   showExtras: boolean;
@@ -15,14 +14,8 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-
-  useEffect(() => {
-    if (isMenuOpen || isSideNavOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [isMenuOpen, isSideNavOpen]);
+  
+  useBodyScrollLock(isMenuOpen || isSideNavOpen);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -32,13 +25,32 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
     setIsSideNavOpen(!isSideNavOpen);
   };
 
-  const closeSideNav = () => {
+  const closeSideNav = useCallback(() => {
     setIsSideNavOpen(false);
-  };
+  }, []);
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
-  };
+  }, []);
+
+  const handleKeyDown = React.useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      closeMenu();
+      closeSideNav();
+    }
+  }, [closeMenu, closeSideNav]);
+
+  useEffect(() => {
+    if (isMenuOpen || isSideNavOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown, isMenuOpen, isSideNavOpen]);
 
   return (
     <>
@@ -84,42 +96,10 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
         {showExtras && isMenuOpen && (
           <nav className="md:hidden bg-white shadow-lg rounded-b-lg transition-all duration-300 ease-in-out">
             <ul className="flex flex-col p-4 space-y-2">
-              <li>
-                <Link
-                  href="/member"
-                  className="text-gray-700 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-                  onClick={closeMenu}
-                >
-                  撮影報告
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/member/past-report"
-                  className="text-gray-700 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-                  onClick={closeMenu}
-                >
-                  撮影報告履歴
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/member/member-list"
-                  className="text-gray-700 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-                  onClick={closeMenu}
-                >
-                  メンバー
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/logout"
-                  className="text-gray-700 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-                  onClick={closeMenu}
-                >
-                  ログアウト
-                </Link>
-              </li>
+              <MenuItem href="/member" itemName="撮影報告" onClick={closeMenu} />
+              <MenuItem href="/member/past-report" itemName="撮影報告履歴" onClick={closeMenu} />
+              <MenuItem href="/member/member-list" itemName="メンバー" onClick={closeMenu} />
+              <MenuItem href="/logout" itemName="ログアウト" onClick={closeMenu} />
             </ul>
           </nav>
         )}

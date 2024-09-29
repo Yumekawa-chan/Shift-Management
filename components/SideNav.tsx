@@ -1,10 +1,10 @@
-// TODO: リファクタリング
 
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { IoMdClose } from "react-icons/io";
-import Link from "next/link";
+import MenuItem from "@/components/common/MenuItem";
 
 interface SideNavProps {
   isOpen: boolean;
@@ -12,12 +12,35 @@ interface SideNavProps {
 }
 
 const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
+
+  const handleOverlayClick = () => {
+    onClose();
+  };
+
+  const handleKeyDown = React.useCallback((event: ReactKeyboardEvent | KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  }, [onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown, isOpen]);
+
   return (
     <>
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300"
-          onClick={onClose}
+          onClick={handleOverlayClick}
         ></div>
       )}
 
@@ -38,42 +61,10 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
         </div>
         <nav className="p-4">
           <ul className="flex flex-col space-y-4">
-            <li>
-              <Link
-                href="/member"
-                className="text-gray-700 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-                onClick={onClose}
-              >
-                撮影報告
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/member/past-report"
-                className="text-gray-700 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-                onClick={onClose}
-              >
-                撮影報告履歴
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/member/member-list"
-                className="text-gray-700 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-                onClick={onClose}
-              >
-                メンバー
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/logout"
-                className="text-gray-700 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-                onClick={onClose}
-              >
-                ログアウト
-              </Link>
-            </li>
+            <MenuItem href="/member" itemName="撮影報告" onClick={onClose}/>
+            <MenuItem href="/member/past-report" itemName="撮影報告履歴" onClick={onClose}/>
+            <MenuItem href="/member/member-list" itemName="メンバー" onClick={onClose}/>
+            <MenuItem href="/logout" itemName="ログアウト" onClick={onClose}/>
           </ul>
         </nav>
       </aside>
