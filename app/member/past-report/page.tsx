@@ -11,8 +11,8 @@ interface Report {
   location: string;
   shots: number;
   notes: string;
+  comments?: string;
 }
-
 
 interface ReportItemProps {
   report: Report;
@@ -35,6 +35,11 @@ const ReportItem: React.FC<ReportItemProps> = ({ report }) => (
     <p>
       <span className="font-bold">備考：</span> {report.notes}
     </p>
+    {report.comments && (
+      <p className="mt-2">
+        <span className="font-bold">管理者コメント：</span> {report.comments}
+      </p>
+    )}
   </div>
 );
 
@@ -42,35 +47,39 @@ const PastReportsSection: React.FC = () => {
   const reports: Report[] = [
     {
       id: 1,
-      start_time: "2023-10-01 10:00",
-      end_time: "2023-10-01 12:00",
+      start_time: "2024-09-29 10:00",
+      end_time: "2024-09-29 12:00",
       location: "東京",
       shots: 50,
       notes: "晴天で良い撮影ができました。",
+      comments: "素晴らしい撮影結果です。引き続き頑張ってください。",
     },
     {
       id: 2,
-      start_time: "2023-10-02 14:30",
-      end_time: "2023-10-02 16:00",
+      start_time: "2024-09-29 14:30",
+      end_time: "2024-09-29 16:00",
       location: "大阪",
       shots: 30,
       notes: "曇りでしたが問題ありませんでした。",
+      // コメントなし
     },
     {
       id: 3,
-      start_time: "2023-10-03 09:00",
-      end_time: "2023-10-03 11:00",
+      start_time: "2024-09-28 09:00",
+      end_time: "2024-09-28 11:00",
       location: "名古屋",
       shots: 40,
       notes: "雨でしたが撮影できました。",
+      comments: "雨天でも撮影を完遂してお疲れ様でした。",
     },
     {
       id: 4,
-      start_time: "2023-10-04 15:00",
-      end_time: "2023-10-04 17:00",
+      start_time: "2024-09-27 15:00",
+      end_time: "2024-09-27 17:00",
       location: "福岡",
       shots: 35,
       notes: "風が強かったです。",
+      // コメントなし
     },
   ];
 
@@ -112,8 +121,8 @@ const PastReportsSection: React.FC = () => {
 const MemberPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header showExtras userName = "テストユーザー" />
-      <main className="flex-grow flex flex-col items-center justify-center">
+      <Header showExtras userName="テストユーザー" />
+      <main className="flex-grow flex flex-col items-center p-4 pt-[8rem]"> 
         <div className="md:flex-row md:items-start md:justify-center w-full max-w-2xl">
           <PastReportsSection />
         </div>
