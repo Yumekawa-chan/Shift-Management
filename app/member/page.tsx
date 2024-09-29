@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { useState } from "react";
-
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { useState } from 'react';
 
 interface FormInputProps {
   label: string;
   type: string;
   placeholder: string;
   value: string | number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -22,7 +23,7 @@ const FormInput: React.FC<FormInputProps> = ({
 }) => (
   <div className="mb-4">
     <label className="block text-gray-700 mb-1">{label}</label>
-    {type === "textarea" ? (
+    {type === 'textarea' ? (
       <textarea
         className="w-full px-3 py-2 border rounded"
         placeholder={placeholder}
@@ -41,13 +42,12 @@ const FormInput: React.FC<FormInputProps> = ({
   </div>
 );
 
-
 const FormSection: React.FC = () => {
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [location, setLocation] = useState("");
-  const [shots, setShots] = useState("");
-  const [notes, setNotes] = useState("");
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [location, setLocation] = useState('');
+  const [shots, setShots] = useState('');
+  const [notes, setNotes] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,7 +55,9 @@ const FormSection: React.FC = () => {
 
   return (
     <div className="w-full mx-auto p-6 bg-white rounded shadow">
-      <p className="text-2xl font-semibold mb-8 text-center">撮影報告フォーム</p>
+      <p className="text-2xl font-semibold mb-8 text-center">
+        撮影報告フォーム
+      </p>
       <form onSubmit={handleSubmit}>
         <FormInput
           label="撮影開始時間"
@@ -103,11 +105,10 @@ const FormSection: React.FC = () => {
   );
 };
 
-
 const MemberPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header showExtras userName="テストユーザー"/>
+      <Header showExtras userName="テストユーザー" />
       <main className="flex-grow flex flex-col items-center justify-center">
         <div className="md:flex-row md:space-x-10 md:items-start md:justify-center w-full max-w-2xl">
           <FormSection />

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useCallback } from "react";
-import { MdMenu } from "react-icons/md";
-import SideNav from "@/components/SideNav";
-import MenuItem from "@/components/common/MenuItem";
-import useBodyScrollLock from "@/hooks/useBodyScrollLock";
+import React, { useState, useEffect, useCallback } from 'react';
+import { MdMenu } from 'react-icons/md';
+import SideNav from '@/components/SideNav';
+import MenuItem from '@/components/common/MenuItem';
+import useBodyScrollLock from '@/hooks/useBodyScrollLock';
 
 interface HeaderProps {
   showExtras: boolean;
@@ -14,7 +14,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  
+
   useBodyScrollLock(isMenuOpen || isSideNavOpen);
 
   const toggleMenu = () => {
@@ -33,22 +33,25 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
     setIsMenuOpen(false);
   }, []);
 
-  const handleKeyDown = React.useCallback((event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      closeMenu();
-      closeSideNav();
-    }
-  }, [closeMenu, closeSideNav]);
+  const handleKeyDown = React.useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeMenu();
+        closeSideNav();
+      }
+    },
+    [closeMenu, closeSideNav]
+  );
 
   useEffect(() => {
     if (isMenuOpen || isSideNavOpen) {
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown);
     } else {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     }
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown, isMenuOpen, isSideNavOpen]);
 
@@ -61,9 +64,11 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
               <>
                 <button
                   className={`focus:outline-none text-gray-700 md:hidden transform transition-transform duration-300 ${
-                    isMenuOpen ? "rotate-90" : ""
+                    isMenuOpen ? 'rotate-90' : ''
                   }`}
-                  aria-label={isMenuOpen ? "メニューを閉じる" : "メニューを開く"}
+                  aria-label={
+                    isMenuOpen ? 'メニューを閉じる' : 'メニューを開く'
+                  }
                   onClick={toggleMenu}
                 >
                   <MdMenu className="w-6 h-6" />
@@ -71,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
 
                 <button
                   className={`hidden md:block focus:outline-none text-gray-700 transform transition-transform duration-300 ${
-                    isSideNavOpen ? "rotate-90" : ""
+                    isSideNavOpen ? 'rotate-90' : ''
                   }`}
                   aria-label="サイドナビゲーションを開く"
                   onClick={toggleSideNav}
@@ -96,18 +101,32 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
         {showExtras && isMenuOpen && (
           <nav className="md:hidden bg-white shadow-lg rounded-b-lg transition-all duration-300 ease-in-out">
             <ul className="flex flex-col p-4 space-y-2">
-              <MenuItem href="/member" itemName="撮影報告" onClick={closeMenu} />
-              <MenuItem href="/member/past-report" itemName="撮影報告履歴" onClick={closeMenu} />
-              <MenuItem href="/member/member-list" itemName="メンバー" onClick={closeMenu} />
-              <MenuItem href="/logout" itemName="ログアウト" onClick={closeMenu} />
+              <MenuItem
+                href="/member"
+                itemName="撮影報告"
+                onClick={closeMenu}
+              />
+              <MenuItem
+                href="/member/past-report"
+                itemName="撮影報告履歴"
+                onClick={closeMenu}
+              />
+              <MenuItem
+                href="/member/member-list"
+                itemName="メンバー"
+                onClick={closeMenu}
+              />
+              <MenuItem
+                href="/logout"
+                itemName="ログアウト"
+                onClick={closeMenu}
+              />
             </ul>
           </nav>
         )}
       </header>
 
-      {showExtras && (
-        <SideNav isOpen={isSideNavOpen} onClose={closeSideNav} />
-      )}
+      {showExtras && <SideNav isOpen={isSideNavOpen} onClose={closeSideNav} />}
     </>
   );
 };

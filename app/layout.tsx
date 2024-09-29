@@ -1,4 +1,4 @@
-import "./globals.css";
+import './globals.css';
 
 export default function RootLayout({
   children,
@@ -7,9 +7,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="overflow-x-hidden">
-        {children}
-      </body>
+      <body className="overflow-x-hidden">{children}</body>
     </html>
   );
 }

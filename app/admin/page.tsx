@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface Report {
   id: number;
   memberName: string;
-  date: string; 
+  date: string;
   start_time: string;
   end_time: string;
   location: string;
@@ -21,36 +21,36 @@ interface Report {
 const mockReports: Report[] = [
   {
     id: 1,
-    memberName: "山田太郎",
-    date: "2024-09-29",
-    start_time: "10:00",
-    end_time: "12:00",
-    location: "東京",
+    memberName: '山田太郎',
+    date: '2024-09-29',
+    start_time: '10:00',
+    end_time: '12:00',
+    location: '東京',
     shots: 50,
-    notes: "晴天で良い撮影ができました。",
-    comments: "",
+    notes: '晴天で良い撮影ができました。',
+    comments: '',
   },
   {
     id: 2,
-    memberName: "佐藤花子",
-    date: "2024-09-29",
-    start_time: "14:30",
-    end_time: "16:00",
-    location: "大阪",
+    memberName: '佐藤花子',
+    date: '2024-09-29',
+    start_time: '14:30',
+    end_time: '16:00',
+    location: '大阪',
     shots: 30,
-    notes: "曇りでしたが問題ありませんでした。",
-    comments: "",
+    notes: '曇りでしたが問題ありませんでした。',
+    comments: '',
   },
   {
     id: 3,
-    memberName: "鈴木一郎",
-    date: "2024-09-28",
-    start_time: "09:00",
-    end_time: "11:00",
-    location: "名古屋",
+    memberName: '鈴木一郎',
+    date: '2024-09-28',
+    start_time: '09:00',
+    end_time: '11:00',
+    location: '名古屋',
     shots: 40,
-    notes: "雨でしたが撮影できました。",
-    comments: "",
+    notes: '雨でしたが撮影できました。',
+    comments: '',
   },
 ];
 
@@ -140,14 +140,16 @@ const ReportList: React.FC = () => {
     );
   };
 
-  const formattedSelectedDate = selectedDate.toISOString().split("T")[0];
+  const formattedSelectedDate = selectedDate.toISOString().split('T')[0];
 
-  const filteredReports = reports.filter((report) => report.date === formattedSelectedDate);
+  const filteredReports = reports.filter(
+    (report) => report.date === formattedSelectedDate
+  );
 
   return (
     <div className="w-full mx-auto p-6 bg-white rounded shadow">
       <p className="text-2xl font-semibold mb-4 text-center">撮影報告一覧</p>
-      
+
       <div className="flex justify-center items-center mb-4 space-x-4">
         <button
           onClick={handlePreviousDay}
@@ -155,14 +157,14 @@ const ReportList: React.FC = () => {
         >
           前の日
         </button>
-        
+
         <DatePicker
           selected={selectedDate}
           onChange={(date: Date | null) => handleDateChange(date)}
           dateFormat="yyyy-MM-dd"
           className="px-3 py-2 border rounded"
         />
-        
+
         <button
           onClick={handleNextDay}
           className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
@@ -173,10 +175,16 @@ const ReportList: React.FC = () => {
 
       {filteredReports.length > 0 ? (
         filteredReports.map((report) => (
-          <ReportItem key={report.id} report={report} onCommentChange={handleCommentChange} />
+          <ReportItem
+            key={report.id}
+            report={report}
+            onCommentChange={handleCommentChange}
+          />
         ))
       ) : (
-        <p className="text-center text-gray-500">選択した日に報告はありません。</p>
+        <p className="text-center text-gray-500">
+          選択した日に報告はありません。
+        </p>
       )}
     </div>
   );
@@ -187,10 +195,10 @@ const AdminPage: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <Header showExtras userName="テスト管理ユーザー" />
       <main className="flex-grow flex flex-col items-center p-4 pt-[7rem] pb-[3rem]">
-  <div className="w-full max-w-3xl">
-    <ReportList />
-  </div>
-</main>
+        <div className="w-full max-w-3xl">
+          <ReportList />
+        </div>
+      </main>
 
       <Footer />
     </div>
