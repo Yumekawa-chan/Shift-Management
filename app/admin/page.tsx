@@ -69,7 +69,7 @@ const ReportItem: React.FC<ReportItemProps> = ({ report, onCommentChange }) => {
   return (
     <div className="mb-4 border-b pb-4">
       <p>
-        <span className="font-bold">メンバー名：</span> {report.memberName}
+        <span className="font-bold">名前：</span> {report.memberName}
       </p>
       <p>
         <span className="font-bold">開始時間：</span> {report.start_time}
