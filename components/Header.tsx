@@ -5,15 +5,17 @@ import { MdMenu } from 'react-icons/md';
 import SideNav from '@/components/SideNav';
 import MenuItem from '@/components/common/MenuItem';
 import useBodyScrollLock from '@/src/hooks/useBodyScrollLock';
+import { auth, firestore } from '@/src/lib/firebase';
+import { onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
-interface HeaderProps {
-  showExtras: boolean;
-  userName?: string;
-}
-
-const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
+const Header: React.FC = () => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [userName, setUserName] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+  const router = useRouter();
 
   useBodyScrollLock(isMenuOpen || isSideNavOpen);
 
@@ -33,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
     setIsMenuOpen(false);
   }, []);
 
-  const handleKeyDown = React.useCallback(
+  const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         closeMenu();
@@ -55,12 +57,53 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
     };
   }, [handleKeyDown, isMenuOpen, isSideNavOpen]);
 
+  // ユーザーのログイン状態を監視し、ユーザー情報を取得
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setCurrentUser(user);
+        // Firestoreからユーザー名を取得
+        try {
+          const userDocRef = doc(firestore, 'users', user.uid);
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserName(`${userData.lastName} ${userData.firstName}`);
+          } else {
+            setUserName('');
+          }
+        } catch (error) {
+          console.error('ユーザーデータの取得に失敗しました:', error);
+          setUserName('');
+        }
+      } else {
+        setCurrentUser(null);
+        setUserName('');
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  // ログアウト処理
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/'); // 必要に応じてログインページやホームページにリダイレクト
+    } catch (error) {
+      console.error('ログアウトエラー:', error);
+    }
+  };
+
   return (
     <>
       <header className="bg-gray-100 py-4 w-full fixed top-0 left-0 z-20 shadow-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4">
+          {/* 左側のメニューアイコン */}
           <div className="flex items-center">
-            {showExtras && (
+            {currentUser && (
               <>
                 <button
                   className={`focus:outline-none text-gray-700 md:hidden transform transition-transform duration-300 ${
@@ -87,18 +130,29 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
             )}
           </div>
 
+          {/* 中央のタイトル */}
           <p className="text-2xl font-bold">Hyperionix</p>
 
+          {/* 右側のユーザー名とログアウトボタン */}
           <div className="flex items-center">
-            {showExtras && userName && (
-              <span className="text-lg font-medium text-gray-700 hidden md:block">
-                {userName}
-              </span>
+            {currentUser && (
+              <>
+                <span className="text-lg font-medium text-gray-700 hidden md:block">
+                  {userName}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="ml-4 bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 transition-colors duration-300"
+                >
+                  ログアウト
+                </button>
+              </>
             )}
           </div>
         </div>
 
-        {showExtras && isMenuOpen && (
+        {/* モバイル用のドロップダウンメニュー */}
+        {currentUser && isMenuOpen && (
           <nav className="md:hidden bg-white shadow-lg rounded-b-lg transition-all duration-300 ease-in-out">
             <ul className="flex flex-col p-4 space-y-2">
               <MenuItem
@@ -116,17 +170,26 @@ const Header: React.FC<HeaderProps> = ({ showExtras, userName }) => {
                 itemName="メンバー"
                 onClick={closeMenu}
               />
-              <MenuItem
-                href="/logout"
-                itemName="ログアウト"
-                onClick={closeMenu}
-              />
+              <li>
+                <button
+                  onClick={() => {
+                    closeMenu();
+                    handleLogout();
+                  }}
+                  className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                >
+                  ログアウト
+                </button>
+              </li>
             </ul>
           </nav>
         )}
       </header>
 
-      {showExtras && <SideNav isOpen={isSideNavOpen} onClose={closeSideNav} />}
+      {/* サイドナビゲーション */}
+      {currentUser && (
+        <SideNav isOpen={isSideNavOpen} onClose={closeSideNav} />
+      )}
     </>
   );
 };

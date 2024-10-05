@@ -121,7 +121,7 @@ const PastReportsSection: React.FC = () => {
 const MemberPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header showExtras userName="テストユーザー" />
+      <Header />
       <main className="flex-grow flex flex-col items-center p-4 pt-[8rem]">
         <div className="md:flex-row md:items-start md:justify-center w-full max-w-2xl">
           <PastReportsSection />

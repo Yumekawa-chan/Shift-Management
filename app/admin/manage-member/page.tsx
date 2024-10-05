@@ -212,7 +212,7 @@ const ManageMemberSection: React.FC = () => {
 const ManageMember: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header showExtras userName="管理者ユーザー" />
+      <Header />
       <main className="flex-grow flex flex-col items-center p-4 mt-[8rem]">
         <div className="w-full max-w-4xl">
           <ManageMemberSection />

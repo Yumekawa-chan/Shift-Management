@@ -193,7 +193,7 @@ const ReportList: React.FC = () => {
 const AdminPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header showExtras userName="テスト管理ユーザー" />
+      <Header />
       <main className="flex-grow flex flex-col items-center p-4 pt-[7rem] pb-[3rem]">
         <div className="w-full max-w-3xl">
           <ReportList />

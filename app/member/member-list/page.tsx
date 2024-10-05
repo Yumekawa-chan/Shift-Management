@@ -68,7 +68,7 @@ const MemberListSection: React.FC = () => {
 const MemberList: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header showExtras userName="テストユーザー" />
+      <Header />
       <main className="flex-grow flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-2xl">
           <MemberListSection />
