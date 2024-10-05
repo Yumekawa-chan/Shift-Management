@@ -15,6 +15,7 @@ import {
   doc,
   updateDoc,
 } from 'firebase/firestore';
+import SpinnerIcon from '@/components/SpinnerIcon';
 
 interface Report {
   id: string;
@@ -34,93 +35,124 @@ interface ReportListProps {
 const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [reports, setReports] = useState<Report[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingReports, setLoadingReports] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     const fetchReports = async () => {
-      setLoading(true);
+      setLoadingReports(true);
+      setError('');
+
       try {
-        const startOfDay = new Date(
-          selectedDate.getFullYear(),
-          selectedDate.getMonth(),
-          selectedDate.getDate(),
-          0,
-          0,
-          0
-        );
-        const endOfDay = new Date(
-          selectedDate.getFullYear(),
-          selectedDate.getMonth(),
-          selectedDate.getDate(),
-          23,
-          59,
-          59
-        );
+        const membersRef = collection(firestore, 'users');
+        const membersQuery = query(membersRef, where('leader', '==', adminUid));
+        const membersSnapshot = await getDocs(membersQuery);
 
-        const reportsRef = collection(firestore, 'reports');
-        const q = query(
-          reportsRef,
-          where('leader', '==', adminUid),
-          where('startTime', '>=', Timestamp.fromDate(startOfDay)),
-          where('startTime', '<=', Timestamp.fromDate(endOfDay))
-        );
-
-        const querySnapshot = await getDocs(q);
-
-        console.log('取得したドキュメント数:', querySnapshot.docs.length); 
-
-        if (querySnapshot.empty) {
-          console.log('クエリ結果が空です');
+        if (membersSnapshot.empty) {
+          console.log('管理者に属するメンバーが見つかりませんでした。');
+          setReports([]);
+          setLoadingReports(false);
+          return;
         }
 
-        const reportsData = await Promise.all(
-          querySnapshot.docs.map(async (reportDoc) => {
-            try {
-              const data = reportDoc.data();
-              console.log(`Processing report: ${reportDoc.id}, leader: ${data.leader}`);
+        const memberUids: string[] = membersSnapshot.docs.map((docSnap) => docSnap.id);
 
-              if (!data.userId) {
-                console.warn(`ドキュメント ${reportDoc.id} に userId フィールドがありません。`);
+        const chunkSize = 10;
+        const chunks: string[][] = [];
+        for (let i = 0; i < memberUids.length; i += chunkSize) {
+          chunks.push(memberUids.slice(i, i + chunkSize));
+        }
+
+        let allReports: Report[] = [];
+
+        for (const chunk of chunks) {
+          const reportsRef = collection(firestore, 'reports');
+          const startOfDay = new Date(
+            selectedDate.getFullYear(),
+            selectedDate.getMonth(),
+            selectedDate.getDate(),
+            0,
+            0,
+            0
+          );
+          const endOfDay = new Date(
+            selectedDate.getFullYear(),
+            selectedDate.getMonth(),
+            selectedDate.getDate(),
+            23,
+            59,
+            59
+          );
+
+          const reportsQuery = query(
+            reportsRef,
+            where('userId', 'in', chunk),
+            where('startTime', '>=', Timestamp.fromDate(startOfDay)),
+            where('startTime', '<=', Timestamp.fromDate(endOfDay))
+          );
+
+          const reportsSnapshot = await getDocs(reportsQuery);
+
+          console.log('取得したドキュメント数:', reportsSnapshot.docs.length);
+
+          if (reportsSnapshot.empty) {
+            console.log('クエリ結果が空です');
+            continue;
+          }
+
+          const reportsData = await Promise.all(
+            reportsSnapshot.docs.map(async (reportDoc) => {
+              try {
+                const data = reportDoc.data();
+
+                if (!data.userId) {
+                  console.warn(`ドキュメント ${reportDoc.id} に userId フィールドがありません。`);
+                  return null;
+                }
+
+                const userDocRef = doc(firestore, 'users', data.userId);
+                const userDocSnap = await getDoc(userDocRef);
+                let memberName = '不明なユーザー';
+                if (userDocSnap.exists()) {
+                  const userData = userDocSnap.data() as { firstName: string; lastName: string };
+                  memberName = `${userData.lastName} ${userData.firstName}`;
+                }
+
+                return {
+                  id: reportDoc.id,
+                  memberName,
+                  startTime: data.startTime.toDate(),
+                  endTime: data.endTime.toDate(),
+                  location: data.location,
+                  shots: data.shots,
+                  notes: data.notes,
+                  comments: data.comments || '',
+                };
+              } catch (error) {
+                console.error(`ドキュメント ${reportDoc.id} の処理中にエラーが発生しました:`, error);
                 return null;
               }
+            })
+          );
 
-              const userDocRef = doc(firestore, 'users', data.userId);
-              const userDocSnap = await getDoc(userDocRef);
-              let memberName = '不明なユーザー';
-              if (userDocSnap.exists()) {
-                const userData = userDocSnap.data() as { firstName: string; lastName: string };
-                memberName = `${userData.lastName} ${userData.firstName}`;
-              }
+          const validReports: Report[] = reportsData.filter(
+            (report): report is Report => report !== null
+          );
 
-              return {
-                id: reportDoc.id,
-                memberName,
-                startTime: data.startTime.toDate(),
-                endTime: data.endTime.toDate(),
-                location: data.location,
-                shots: data.shots,
-                notes: data.notes,
-                comments: data.comments || '',
-              };
-            } catch (error) {
-              console.error(`ドキュメント ${reportDoc.id} の処理中にエラーが発生しました:`, error);
-              return null;
-            }
-          })
-        );
+          allReports = allReports.concat(validReports);
+        }
 
-        const validReports: Report[] = reportsData.filter((report): report is Report => report !== null);
-
-        setReports(validReports);
+        setReports(allReports);
       } catch (error: unknown) {
         console.error('報告データの取得に失敗しました：', error);
         if (error instanceof Error) {
-          alert(`報告データの取得に失敗しました：${error.message}`);
+          setError(`報告データの取得に失敗しました：${error.message}`);
         } else {
-          alert('報告データの取得に失敗しました：不明なエラー');
+          setError('報告データの取得に失敗しました：不明なエラー');
         }
       }
-      setLoading(false);
+
+      setLoadingReports(false);
     };
 
     fetchReports();
@@ -188,8 +220,12 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
         </button>
       </div>
 
-      {loading ? (
-        <p className="text-center text-gray-500">読み込み中...</p>
+      {loadingReports ? (
+        <div className="flex items-center justify-center">
+          <SpinnerIcon />
+        </div>
+      ) : error ? (
+        <p className="text-center text-red-500">{error}</p>
       ) : reports.length > 0 ? (
         reports.map((report) => (
           <ReportItem

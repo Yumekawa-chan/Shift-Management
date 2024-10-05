@@ -16,7 +16,9 @@ const AdminPage: React.FC = () => {
       </div>
     );
   }
-console.log('adminUid:', adminUid);
+
+  console.log('adminUid:', adminUid);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />

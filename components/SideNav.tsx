@@ -4,16 +4,15 @@ import React, { useEffect } from 'react';
 import { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import MenuItem from '@/components/common/MenuItem';
-import { signOut } from 'firebase/auth';
-import { auth } from '@/src/lib/firebase';
-import router from 'next/router';
 
 interface SideNavProps {
   isOpen: boolean;
   onClose: () => void;
+  userRole: string;
+  handleLogout: () => void;
 }
 
-const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
+const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose, userRole, handleLogout }) => {
   const handleOverlayClick = () => {
     onClose();
   };
@@ -26,15 +25,6 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
     },
     [onClose]
   );
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      router.push('/'); 
-    } catch (error) {
-      console.error('ログアウトエラー:', error);
-    }
-  };
 
   useEffect(() => {
     if (isOpen) {
@@ -74,18 +64,57 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
         </div>
         <nav className="p-4">
           <ul className="flex flex-col space-y-4">
-            <MenuItem href="/member" itemName="撮影報告" onClick={onClose} />
-            <MenuItem
-              href="/member/past-report"
-              itemName="撮影報告履歴"
-              onClick={onClose}
-            />
-            <MenuItem
-              href="/member/member-list"
-              itemName="メンバー"
-              onClick={onClose}
-            />
-            <MenuItem href="/logout" itemName="ログアウト" onClick={handleLogout} />
+            {userRole === 'admin' ? (
+              <>
+                <MenuItem href="/admin" itemName="撮影報告一覧" onClick={onClose} />
+                <MenuItem
+                  href="/admin/commit-graph"
+                  itemName="貢献グラフ"
+                  onClick={onClose}
+                />
+                <MenuItem
+                  href="/admin/manage-member"
+                  itemName="メンバー管理"
+                  onClick={onClose}
+                />
+                <li>
+                  <button
+                    onClick={() => {
+                      onClose();
+                      handleLogout();
+                    }}
+                    className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    ログアウト
+                  </button>
+                </li>
+              </>
+            ) : userRole === 'member' ? (
+              <>
+                <MenuItem href="/member" itemName="撮影報告" onClick={onClose} />
+                <MenuItem
+                  href="/member/past-report"
+                  itemName="撮影報告履歴"
+                  onClick={onClose}
+                />
+                <MenuItem
+                  href="/member/member-list"
+                  itemName="メンバー"
+                  onClick={onClose}
+                />
+                <li>
+                  <button
+                    onClick={() => {
+                      onClose();
+                      handleLogout();
+                    }}
+                    className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    ログアウト
+                  </button>
+                </li>
+              </>
+            ) : null}
           </ul>
         </nav>
       </aside>

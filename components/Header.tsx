@@ -10,9 +10,16 @@ import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 
+interface UserData {
+  lastName: string;
+  firstName: string;
+  role: string;
+}
+
 const Header: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [userName, setUserName] = useState<string>('');
+  const [userRole, setUserRole] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const router = useRouter();
@@ -65,18 +72,22 @@ const Header: React.FC = () => {
           const userDocRef = doc(firestore, 'users', user.uid);
           const userDoc = await getDoc(userDocRef);
           if (userDoc.exists()) {
-            const userData = userDoc.data();
+            const userData = userDoc.data() as UserData;
             setUserName(`${userData.lastName} ${userData.firstName}`);
+            setUserRole(userData.role);
           } else {
             setUserName('');
+            setUserRole('');
           }
         } catch (error) {
           console.error('ユーザーデータの取得に失敗しました:', error);
           setUserName('');
+          setUserRole('');
         }
       } else {
         setCurrentUser(null);
         setUserName('');
+        setUserRole('');
       }
     });
 
@@ -88,7 +99,7 @@ const Header: React.FC = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      router.push('/'); 
+      router.push('/');
     } catch (error) {
       console.error('ログアウトエラー:', error);
     }
@@ -99,7 +110,7 @@ const Header: React.FC = () => {
       <header className="bg-gray-100 py-4 w-full fixed top-0 left-0 z-20 shadow-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4">
           <div className="flex items-center">
-            {currentUser && (
+            {currentUser && userRole && (
               <>
                 <button
                   className={`focus:outline-none text-gray-700 md:hidden transform transition-transform duration-300 ${
@@ -129,52 +140,80 @@ const Header: React.FC = () => {
           <p className="text-2xl font-bold">Hyperionix</p>
 
           <div className="flex items-center">
-            {currentUser && (
-              <>
-                <span className="text-lg font-medium text-gray-700 hidden md:block">
-                  {userName}
-                </span>
-              </>
+            {currentUser && userName && (
+              <span className="text-lg font-medium text-gray-700 hidden md:block">
+                {userName}
+              </span>
             )}
           </div>
         </div>
 
-        {currentUser && isMenuOpen && (
+        {currentUser && userRole && isMenuOpen && (
           <nav className="md:hidden bg-white shadow-lg rounded-b-lg transition-all duration-300 ease-in-out">
             <ul className="flex flex-col p-4 space-y-2">
-              <MenuItem
-                href="/member"
-                itemName="撮影報告"
-                onClick={closeMenu}
-              />
-              <MenuItem
-                href="/member/past-report"
-                itemName="撮影報告履歴"
-                onClick={closeMenu}
-              />
-              <MenuItem
-                href="/member/member-list"
-                itemName="メンバー"
-                onClick={closeMenu}
-              />
-              <li>
-                <button
-                  onClick={() => {
-                    closeMenu();
-                    handleLogout();
-                  }}
-                  className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
-                >
-                  ログアウト
-                </button>
-              </li>
+              {userRole === 'admin' ? (
+                <>
+                  <MenuItem href="/admin" itemName="撮影報告一覧" onClick={closeMenu} />
+                  <MenuItem
+                    href="/admin/commit-graph"
+                    itemName="貢献グラフ"
+                    onClick={closeMenu}
+                  />
+                  <MenuItem
+                    href="/admin/manage-member"
+                    itemName="メンバー管理"
+                    onClick={closeMenu}
+                  />
+                  <li>
+                    <button
+                      onClick={() => {
+                        closeMenu();
+                        handleLogout();
+                      }}
+                      className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                    >
+                      ログアウト
+                    </button>
+                  </li>
+                </>
+              ) : userRole === 'member' ? (
+                <>
+                  <MenuItem href="/member" itemName="撮影報告" onClick={closeMenu} />
+                  <MenuItem
+                    href="/member/past-report"
+                    itemName="撮影報告履歴"
+                    onClick={closeMenu}
+                  />
+                  <MenuItem
+                    href="/member/member-list"
+                    itemName="メンバー"
+                    onClick={closeMenu}
+                  />
+                  <li>
+                    <button
+                      onClick={() => {
+                        closeMenu();
+                        handleLogout();
+                      }}
+                      className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                    >
+                      ログアウト
+                    </button>
+                  </li>
+                </>
+              ) : null}
             </ul>
           </nav>
         )}
       </header>
 
-      {currentUser && (
-        <SideNav isOpen={isSideNavOpen} onClose={closeSideNav} />
+      {currentUser && userRole && (
+        <SideNav
+          isOpen={isSideNavOpen}
+          onClose={closeSideNav}
+          userRole={userRole}
+          handleLogout={handleLogout}
+        />
       )}
     </>
   );
