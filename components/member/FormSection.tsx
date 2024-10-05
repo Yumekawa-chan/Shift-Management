@@ -63,7 +63,6 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
       return;
     }
 
-    // バリデーション
     if (!startTime || !endTime || !location || !shots) {
       alert('すべての必須フィールドを入力してください。');
       return;
@@ -87,7 +86,6 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
       return;
     }
 
-    // データの準備
     const reportData = {
       userId: user.uid,
       leader: leader,

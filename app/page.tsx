@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import SpinnerIcon from '@/components/SppinerIcon';
+import SpinnerIcon from '@/components/SpinnerIcon';
 import { FaTimes, FaUser, FaUserPlus, FaSignInAlt } from 'react-icons/fa';
 import { auth, firestore } from '@/src/lib/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';

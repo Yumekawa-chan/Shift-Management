@@ -4,6 +4,9 @@ import React, { useEffect } from 'react';
 import { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import MenuItem from '@/components/common/MenuItem';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/src/lib/firebase';
+import router from 'next/router';
 
 interface SideNavProps {
   isOpen: boolean;
@@ -23,6 +26,15 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
     },
     [onClose]
   );
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/'); 
+    } catch (error) {
+      console.error('ログアウトエラー:', error);
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -73,7 +85,7 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
               itemName="メンバー"
               onClick={onClose}
             />
-            <MenuItem href="/logout" itemName="ログアウト" onClick={onClose} />
+            <MenuItem href="/logout" itemName="ログアウト" onClick={handleLogout} />
           </ul>
         </nav>
       </aside>

@@ -1,5 +1,3 @@
-// src/components/common/ReportList.tsx
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -42,7 +40,6 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
     const fetchReports = async () => {
       setLoading(true);
       try {
-        // 選択された日の開始と終了のタイムスタンプを取得
         const startOfDay = new Date(
           selectedDate.getFullYear(),
           selectedDate.getMonth(),
@@ -70,7 +67,7 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
 
         const querySnapshot = await getDocs(q);
 
-        console.log('取得したドキュメント数:', querySnapshot.docs.length); // デバッグ用
+        console.log('取得したドキュメント数:', querySnapshot.docs.length); 
 
         if (querySnapshot.empty) {
           console.log('クエリ結果が空です');
@@ -82,7 +79,6 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
               const data = reportDoc.data();
               console.log(`Processing report: ${reportDoc.id}, leader: ${data.leader}`);
 
-              // userId フィールドが存在するか確認
               if (!data.userId) {
                 console.warn(`ドキュメント ${reportDoc.id} に userId フィールドがありません。`);
                 return null;
@@ -108,12 +104,11 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
               };
             } catch (error) {
               console.error(`ドキュメント ${reportDoc.id} の処理中にエラーが発生しました:`, error);
-              return null; // エラーが発生した場合は null を返す
+              return null;
             }
           })
         );
 
-        // null のエントリをフィルタリング
         const validReports: Report[] = reportsData.filter((report): report is Report => report !== null);
 
         setReports(validReports);

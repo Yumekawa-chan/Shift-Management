@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import useMemberAuth from '@/src/hooks/useMemberAuth';
 import FormSection from "@/components/member/FormSection";
-import SpinnerIcon from "@/components/SppinerIcon";
+import SpinnerIcon from "@/components/SpinnerIcon";
 
 const MemberPage: React.FC = () => {
   const { loading, leader } = useMemberAuth();

@@ -57,12 +57,10 @@ const Header: React.FC = () => {
     };
   }, [handleKeyDown, isMenuOpen, isSideNavOpen]);
 
-  // ユーザーのログイン状態を監視し、ユーザー情報を取得
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setCurrentUser(user);
-        // Firestoreからユーザー名を取得
         try {
           const userDocRef = doc(firestore, 'users', user.uid);
           const userDoc = await getDoc(userDocRef);
@@ -87,11 +85,10 @@ const Header: React.FC = () => {
     };
   }, []);
 
-  // ログアウト処理
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      router.push('/'); // 必要に応じてログインページやホームページにリダイレクト
+      router.push('/'); 
     } catch (error) {
       console.error('ログアウトエラー:', error);
     }
@@ -101,7 +98,6 @@ const Header: React.FC = () => {
     <>
       <header className="bg-gray-100 py-4 w-full fixed top-0 left-0 z-20 shadow-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4">
-          {/* 左側のメニューアイコン */}
           <div className="flex items-center">
             {currentUser && (
               <>
@@ -130,28 +126,19 @@ const Header: React.FC = () => {
             )}
           </div>
 
-          {/* 中央のタイトル */}
           <p className="text-2xl font-bold">Hyperionix</p>
 
-          {/* 右側のユーザー名とログアウトボタン */}
           <div className="flex items-center">
             {currentUser && (
               <>
                 <span className="text-lg font-medium text-gray-700 hidden md:block">
                   {userName}
                 </span>
-                <button
-                  onClick={handleLogout}
-                  className="ml-4 bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 transition-colors duration-300"
-                >
-                  ログアウト
-                </button>
               </>
             )}
           </div>
         </div>
 
-        {/* モバイル用のドロップダウンメニュー */}
         {currentUser && isMenuOpen && (
           <nav className="md:hidden bg-white shadow-lg rounded-b-lg transition-all duration-300 ease-in-out">
             <ul className="flex flex-col p-4 space-y-2">
@@ -176,7 +163,7 @@ const Header: React.FC = () => {
                     closeMenu();
                     handleLogout();
                   }}
-                  className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                  className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                 >
                   ログアウト
                 </button>
@@ -186,7 +173,6 @@ const Header: React.FC = () => {
         )}
       </header>
 
-      {/* サイドナビゲーション */}
       {currentUser && (
         <SideNav isOpen={isSideNavOpen} onClose={closeSideNav} />
       )}

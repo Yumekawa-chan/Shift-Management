@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import useAdminAuth from '@/src/hooks/useAdminAuth';
 import ReportList from '@/components/admin/ReportList';
-import SpinnerIcon from '@/components/SppinerIcon';
+import SpinnerIcon from '@/components/SpinnerIcon';
 
 const AdminPage: React.FC = () => {
   const { loading, adminUid } = useAdminAuth();
