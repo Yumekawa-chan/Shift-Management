@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { MdMenu } from 'react-icons/md';
 import SideNav from '@/components/SideNav';
 import MenuItem from '@/components/common/MenuItem';
-import useBodyScrollLock from '@/hooks/useBodyScrollLock';
+import useBodyScrollLock from '@/src/hooks/useBodyScrollLock';
 
 interface HeaderProps {
   showExtras: boolean;
