@@ -1,3 +1,5 @@
+// src/components/admin/CommitGraph.tsx
+
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -19,18 +21,15 @@ interface ChartData {
 }
 
 const calculateContribution = (shots: number): number => {
-  const impactBonus = Math.log(shots + 1) * 20;
-  const growthBonus = Math.sqrt(shots) * 10;
-  const conditionEffect = Math.abs(Math.cos(shots) * 30);
-  const exponentialGrowth = Math.exp(shots / 500) * 5;
-
-  return shots + impactBonus + growthBonus + conditionEffect + exponentialGrowth;
+  // 貢献度を計算する．式は後々のアップデートで
+  return shots;
 };
 
 const CommitGraph: React.FC = () => {
   const { loading, adminUid } = useAdminAuth();
   const [data, setData] = useState<ChartData[]>([]);
   const [dataLoading, setDataLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     if (loading) return;
@@ -38,25 +37,36 @@ const CommitGraph: React.FC = () => {
 
     const fetchData = async () => {
       setDataLoading(true);
+      setError('');
 
       try {
         const usersRef = collection(firestore, 'users');
-        const q = query(usersRef, where('leader', '==', adminUid));
-        const querySnapshot = await getDocs(q);
+        const membersQuery = query(usersRef, where('leader', '==', adminUid));
+        const membersSnapshot = await getDocs(membersQuery);
 
-        const members = querySnapshot.docs.map((docSnap) => {
+        if (membersSnapshot.empty) {
+          console.log('管理者に属するメンバーが見つかりませんでした。');
+          setData([]);
+          setDataLoading(false);
+          return;
+        }
+
+        const members = membersSnapshot.docs.map((docSnap) => {
           const data = docSnap.data();
           return {
             uid: docSnap.id,
             lastName: data.lastName || '',
             firstName: data.firstName || '',
-            shots: 0, 
           };
         });
 
-        const memberDataPromises = members.map(async (member) => {
-          const reportsRef = collection(firestore, 'users', member.uid, 'reports');
-          const reportsSnapshot = await getDocs(reportsRef);
+        const chartDataPromises = members.map(async (member) => {
+          const reportsRef = collection(firestore, 'reports');
+          const reportsQuery = query(
+            reportsRef,
+            where('userId', '==', member.uid)
+          );
+          const reportsSnapshot = await getDocs(reportsQuery);
 
           let totalShots = 0;
           reportsSnapshot.forEach((reportDoc) => {
@@ -66,20 +76,20 @@ const CommitGraph: React.FC = () => {
 
           return {
             name: `${member.lastName} ${member.firstName}`,
-            shots: totalShots,
+            contribution: calculateContribution(totalShots),
           };
         });
 
-        const memberData = await Promise.all(memberDataPromises);
+        const chartDataResults = await Promise.all(chartDataPromises);
 
-        const chartData: ChartData[] = memberData.map((member) => ({
-          name: member.name,
-          contribution: calculateContribution(member.shots),
-        }));
-
-        setData(chartData);
-      } catch (error) {
+        setData(chartDataResults);
+      } catch (error: unknown) {
         console.error('データの取得中にエラーが発生しました：', error);
+        if (error instanceof Error) {
+          setError(`データの取得に失敗しました：${error.message}`);
+        } else {
+          setError('データの取得に失敗しました：不明なエラー');
+        }
       }
 
       setDataLoading(false);
@@ -92,6 +102,14 @@ const CommitGraph: React.FC = () => {
     return (
       <div className="flex items-center justify-center h-screen">
         <SpinnerIcon />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <p className="text-red-500">{error}</p>
       </div>
     );
   }
@@ -119,7 +137,7 @@ const CommitGraphSection: React.FC<{ data: ChartData[] }> = ({ data }) => {
             top: 20, right: 30, left: 20, bottom: 5,
           }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" label={{ position: 'insideBottomRight', offset: 0 }} />
+            <XAxis type="number" label={{ value: '貢献度', position: 'insideBottomRight', offset: 0 }} />
             <YAxis dataKey="name" type="category" />
             <Tooltip />
             <Bar dataKey="contribution" fill="#8884d8" />
