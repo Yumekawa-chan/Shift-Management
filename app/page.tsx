@@ -49,32 +49,32 @@ const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold mb-4 flex items-center">
+      <h2 className="text-xl font-semibold mb-4 flex items-center text-pink-500">
         <FaUser className="mr-2" /> 管理者ログイン
       </h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <label className="flex flex-col">
+      {error && <p className="text-rose-400">{error}</p>}
+      <label className="flex flex-col text-pink-500">
         メールアドレス
         <input
           type="email"
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-pink-200 rounded px-3 py-2 w-full mt-1 focus:border-pink-300 focus:ring focus:ring-pink-100"
           placeholder="example@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
-      <label className="flex flex-col">
+      <label className="flex flex-col text-pink-500">
         パスワード
         <input
           type="password"
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-pink-200 rounded px-3 py-2 w-full mt-1 focus:border-pink-300 focus:ring focus:ring-pink-100"
           placeholder="••••••••"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
       <button
-        className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition-colors duration-300 mt-4 flex items-center justify-center"
+        className="bg-pink-300 text-white px-6 py-3 rounded hover:bg-pink-400 transition-colors duration-300 mt-4 flex items-center justify-center"
         onClick={handleAdminLogin}
       >
         <FaSignInAlt className="mr-2" /> ログイン
@@ -120,32 +120,32 @@ const MemberLoginForm = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold mb-4 flex items-center">
+      <h2 className="text-xl font-semibold mb-4 flex items-center text-sky-500">
         <FaUser className="mr-2" /> メンバーログイン
       </h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <label className="flex flex-col">
+      {error && <p className="text-rose-400">{error}</p>}
+      <label className="flex flex-col text-sky-500">
         メールアドレス
         <input
           type="email"
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-sky-200 rounded px-3 py-2 w-full mt-1 focus:border-sky-300 focus:ring focus:ring-sky-100"
           placeholder="example@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
-      <label className="flex flex-col">
+      <label className="flex flex-col text-sky-500">
         パスワード
         <input
           type="password"
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-sky-200 rounded px-3 py-2 w-full mt-1 focus:border-sky-300 focus:ring focus:ring-sky-100"
           placeholder="••••••••"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
       <button
-        className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition-colors duration-300 mt-4 flex items-center justify-center"
+        className="bg-sky-400 text-white px-6 py-3 rounded hover:bg-sky-500 transition-colors duration-300 mt-4 flex items-center justify-center"
         onClick={handleMemberLogin}
       >
         <FaSignInAlt className="mr-2" /> ログイン
@@ -225,34 +225,34 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold mb-4 flex items-center">
+      <h2 className="text-xl font-semibold mb-4 flex items-center text-purple-500">
         <FaUserPlus className="mr-2" /> メンバー登録
       </h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <label className="flex flex-col">
+      {error && <p className="text-rose-400">{error}</p>}
+      <label className="flex flex-col text-purple-500">
         姓
         <input
           type="text"
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-purple-200 rounded px-3 py-2 w-full mt-1 focus:border-purple-300 focus:ring focus:ring-purple-100"
           placeholder="山田"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />
       </label>
-      <label className="flex flex-col">
+      <label className="flex flex-col text-purple-500">
         名
         <input
           type="text"
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-purple-200 rounded px-3 py-2 w-full mt-1 focus:border-purple-300 focus:ring focus:ring-purple-100"
           placeholder="太郎"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
         />
       </label>
-      <label className="flex flex-col">
+      <label className="flex flex-col text-purple-500">
         学年
         <select
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-purple-200 rounded px-3 py-2 w-full mt-1 focus:border-purple-300 focus:ring focus:ring-purple-100"
           value={grade}
           onChange={(e) => setGrade(e.target.value)}
         >
@@ -262,40 +262,40 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
           <option value="M2">M2</option>
         </select>
       </label>
-      <label className="flex flex-col">
+      <label className="flex flex-col text-purple-500">
         メールアドレス
         <input
           type="email"
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-purple-200 rounded px-3 py-2 w-full mt-1 focus:border-purple-300 focus:ring focus:ring-purple-100"
           placeholder="example@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
-      <label className="flex flex-col">
+      <label className="flex flex-col text-purple-500">
         パスワード
         <input
           type="password"
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-purple-200 rounded px-3 py-2 w-full mt-1 focus:border-purple-300 focus:ring focus:ring-purple-100"
           placeholder="6文字以上"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <label className="flex flex-col">
+      <label className="flex flex-col text-purple-500">
         パスワード（確認）
         <input
           type="password"
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-purple-200 rounded px-3 py-2 w-full mt-1 focus:border-purple-300 focus:ring focus:ring-purple-100"
           placeholder="もう一度入力"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </label>
-      <label className="flex flex-col">
+      <label className="flex flex-col text-purple-500">
         リーダー選択
         <select
-          className="border rounded px-3 py-2 w-full mt-1"
+          className="border border-purple-200 rounded px-3 py-2 w-full mt-1 focus:border-purple-300 focus:ring focus:ring-purple-100"
           value={leader}
           onChange={(e) => setLeader(e.target.value)}
         >
@@ -308,7 +308,7 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
         </select>
       </label>
       <button
-        className="bg-gray-600 text-white px-6 py-3 rounded hover:bg-gray-700 transition-colors duration-300 mt-4 flex items-center justify-center"
+        className="bg-purple-400 text-white px-6 py-3 rounded hover:bg-purple-500 transition-colors duration-300 mt-4 flex items-center justify-center"
         onClick={handleMemberRegistration}
       >
         登録する
@@ -348,54 +348,54 @@ const HomeMain = () => {
   return (
     <main className="flex flex-col items-center justify-center flex-grow bg-gradient-to-b from-blue-100 to-white">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">Hyperionix</h1>
-        <p className="text-lg text-gray-600">ログインまたは登録してください。</p>
+        <h1 className="text-4xl font-bold text-indigo-500 mb-4">Hyperionix</h1>
+        <p className="text-lg text-indigo-500">ログインまたは登録してください。</p>
       </div>
       <div className="flex flex-col items-center gap-4">
-        <button
-          className="bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
-          onClick={() => openModal(<AdminLoginForm closeModal={closeModal} />)}
-        >
-          <FaUser className="mr-2" />
-          管理者としてログイン
-        </button>
-        <button
-          className="bg-green-600 text-white px-4 py-3 rounded hover:bg-green-700 transition-colors duration-300 flex items-center"
-          onClick={() => openModal(<MemberLoginForm closeModal={closeModal} />)}
-        >
-          <FaUser className="mr-2" />
-          メンバーとしてログイン
-        </button>
-        <button
-          className="bg-gray-600 text-white px-5 py-3 rounded hover:bg-gray-700 transition-colors duration-300 flex items-center"
-          onClick={() => openModal(<MemberRegistrationForm closeModal={closeModal} />)}
-        >
-          <FaUserPlus className="mr-2" />
-          メンバー登録
-        </button>
-      </div>
+    <button
+      className="bg-pink-400 text-white px-4 py-3 rounded hover:bg-pink-500 transition-colors duration-300 flex items-center"
+      onClick={() => openModal(<AdminLoginForm closeModal={closeModal} />)}
+    >
+      <FaUser className="mr-2" />
+      管理者としてログイン
+    </button>
+    <button
+      className="bg-sky-400 text-white px-4 py-3 rounded hover:bg-sky-500 transition-colors duration-300 flex items-center"
+      onClick={() => openModal(<MemberLoginForm closeModal={closeModal} />)}
+    >
+      <FaUser className="mr-2" />
+      メンバーとしてログイン
+    </button>
+    <button
+      className="bg-purple-400 text-white px-5 py-3 rounded hover:bg-purple-500 transition-colors duration-300 flex items-center"
+      onClick={() => openModal(<MemberRegistrationForm closeModal={closeModal} />)}
+    >
+      <FaUserPlus className="mr-2" />
+      メンバー登録
+    </button>
+  </div>
 
-      {modalIsOpen && (
-        <div
-          className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity duration-300 ${
-            modalVisible ? 'opacity-100' : 'opacity-0'
-          }`}
+    {modalIsOpen && (
+    <div
+      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50 transition-opacity duration-300 ${
+        modalVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
+      <div
+        className={`bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 border border-purple-200 rounded-2xl shadow-2xl max-w-md w-full p-6 relative transform transition-transform duration-300 ${
+          modalVisible ? 'scale-100' : 'scale-90'
+        }`}
+      >
+        <button
+          className="absolute top-3 right-3 text-purple-400 hover:text-purple-600 transition-colors duration-200"
+          onClick={closeModal}
         >
-          <div
-            className={`bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative transform transition-transform duration-300 ${
-              modalVisible ? 'scale-100' : 'scale-90'
-            }`}
-          >
-            <button
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-              onClick={closeModal}
-            >
-              <FaTimes size={24} />
-            </button>
-            {modalContent}
-          </div>
-        </div>
-      )}
+          <FaTimes size={24} />
+        </button>
+        {modalContent}
+      </div>
+    </div>
+  )}
     </main>
   );
 };

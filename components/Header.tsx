@@ -107,13 +107,13 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-gray-100 py-4 w-full fixed top-0 left-0 z-20 shadow">
+      <header className="py-4 w-full fixed top-0 left-0 z-20 bg-gradient-to-r from-pink-300 via-violet-300 to-blue-200 border-pink-400 shadow">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4">
           <div className="flex items-center">
             {currentUser && userRole && (
               <>
                 <button
-                  className={`focus:outline-none text-gray-700 md:hidden transform transition-transform duration-300 ${
+                  className={`focus:outline-none text-purple-500 md:hidden transform transition-transform duration-300 ${
                     isMenuOpen ? 'rotate-90' : ''
                   }`}
                   aria-label={
@@ -125,7 +125,7 @@ const Header: React.FC = () => {
                 </button>
 
                 <button
-                  className={`hidden md:block focus:outline-none text-gray-700 transform transition-transform duration-300 ${
+                  className={`hidden md:block focus:outline-none text-purple-500 transform transition-transform duration-300 ${
                     isSideNavOpen ? 'rotate-90' : ''
                   }`}
                   aria-label="サイドナビゲーションを開く"
@@ -137,11 +137,13 @@ const Header: React.FC = () => {
             )}
           </div>
 
-          <p className="text-2xl font-bold">Hyperionix</p>
+          <p className="text-2xl font-bold text-purple-500">
+             Hyperionix 🌈 🦄
+          </p>
 
           <div className="flex items-center">
             {currentUser && userName && (
-              <span className="text-lg font-medium text-gray-700 hidden md:block">
+              <span className="text-lg font-medium text-purple-500 hidden md:block">
                 {userName}
               </span>
             )}
@@ -183,17 +185,11 @@ const Header: React.FC = () => {
                     itemName="メンバー"
                     onClick={closeMenu}
                   />
-                  <li>
-                    <button
-                      onClick={() => {
-                        closeMenu();
-                        handleLogout();
-                      }}
-                      className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
-                    >
-                      ログアウト
-                    </button>
-                  </li>
+                  <MenuItem
+                    href="/"
+                    itemName="ログアウト"
+                    onClick={handleLogout}
+                  />
                 </>
               ) : null}
             </ul>
