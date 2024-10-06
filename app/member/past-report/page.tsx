@@ -120,7 +120,6 @@ const MemberPastReportPage: React.FC = () => {
                   </div>
                 ))}
 
-                {/* ページネーション */}
                 <div className="flex justify-center mt-4 space-x-2">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
                     <button
@@ -128,8 +127,8 @@ const MemberPastReportPage: React.FC = () => {
                       onClick={() => paginate(number)}
                       className={`px-3 py-1 rounded ${
                         currentPage === number
-                          ? 'bg-blue-500 text-white'
-                          : 'bg-gray-200 text-gray-700'
+                          ? 'bg-purple-500 text-white'
+                          : 'bg-purple-300 text-white'
                       }`}
                     >
                       {number}

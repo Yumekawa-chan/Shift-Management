@@ -74,7 +74,7 @@ const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
         />
       </label>
       <button
-        className="bg-pink-300 text-white px-6 py-3 rounded hover:bg-pink-400 transition-colors duration-300 mt-4 flex items-center justify-center"
+        className="bg-pink-500 text-white px-6 py-3 rounded hover:bg-pink-600 transition-colors duration-300 mt-4 flex items-center justify-center"
         onClick={handleAdminLogin}
       >
         <FaSignInAlt className="mr-2" /> ログイン
@@ -308,7 +308,7 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
         </select>
       </label>
       <button
-        className="bg-purple-400 text-white px-6 py-3 rounded hover:bg-purple-500 transition-colors duration-300 mt-4 flex items-center justify-center"
+        className="bg-purple-500 text-white px-6 py-3 rounded hover:bg-purple-600 transition-colors duration-300 mt-4 flex items-center justify-center"
         onClick={handleMemberRegistration}
       >
         登録する
@@ -357,14 +357,14 @@ const HomeMain = () => {
       onClick={() => openModal(<AdminLoginForm closeModal={closeModal} />)}
     >
       <FaUser className="mr-2" />
-      管理者としてログイン
+      管理者ログイン
     </button>
     <button
       className="bg-sky-400 text-white px-4 py-3 rounded hover:bg-sky-500 transition-colors duration-300 flex items-center"
       onClick={() => openModal(<MemberLoginForm closeModal={closeModal} />)}
     >
       <FaUser className="mr-2" />
-      メンバーとしてログイン
+      メンバーログイン
     </button>
     <button
       className="bg-purple-400 text-white px-5 py-3 rounded hover:bg-purple-500 transition-colors duration-300 flex items-center"

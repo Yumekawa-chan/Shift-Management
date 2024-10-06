@@ -152,7 +152,7 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+          className="w-full bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600"
         >
           送信
         </button>

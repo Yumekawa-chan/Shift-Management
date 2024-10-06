@@ -200,7 +200,7 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
       <div className="flex justify-center items-center mb-4 space-x-4">
         <button
           onClick={handlePreviousDay}
-          className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+          className="px-3 py-1 bg-purple-200 text-purple-700 rounded hover:bg-purple-300"
         >
           前の日
         </button>
@@ -214,7 +214,7 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
 
         <button
           onClick={handleNextDay}
-          className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+          className="px-3 py-1 bg-purple-200 text-purple-700 rounded hover:bg-purple-300"
         >
           次の日
         </button>
@@ -225,7 +225,7 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
           <SpinnerIcon />
         </div>
       ) : error ? (
-        <p className="text-center text-red-500">{error}</p>
+        <p className="text-center text-rose-500">{error}</p>
       ) : reports.length > 0 ? (
         reports.map((report) => (
           <ReportItem

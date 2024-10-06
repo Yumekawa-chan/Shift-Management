@@ -158,14 +158,14 @@ const ManageMember: React.FC = () => {
                         <div className="flex justify-center space-x-2">
                           <button
                             onClick={() => handleEdit(member)}
-                            className="text-blue-500 hover:text-blue-700"
+                            className="text-sky-500 hover:text-sky-600"
                             aria-label="編集"
                           >
                             <MdEdit size={20} />
                           </button>
                           <button
                             onClick={() => handleDelete(member.uid)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-rose-500 hover:text-rose-600"
                             aria-label="削除"
                           >
                             <MdDelete size={20} />
@@ -248,7 +248,7 @@ const ManageMember: React.FC = () => {
                     </button>
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                      className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
                     >
                       保存
                     </button>
