@@ -55,7 +55,7 @@ const ReportItem: React.FC<ReportItemProps> = ({ report, onCommentChange }) => {
         />
         <button
           onClick={handleCommentSave}
-          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="mt-2 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
         >
           保存
         </button>
