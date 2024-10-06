@@ -109,7 +109,7 @@ const CommitGraph: React.FC = () => {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <p className="text-red-500">{error}</p>
+        <p className="text-rose-500">{error}</p>
       </div>
     );
   }
@@ -140,7 +140,7 @@ const CommitGraphSection: React.FC<{ data: ChartData[] }> = ({ data }) => {
             <XAxis type="number" label={{ value: '貢献度', position: 'insideBottomRight', offset: 0 }} />
             <YAxis dataKey="name" type="category" />
             <Tooltip />
-            <Bar dataKey="contribution" fill="#8884d8" />
+            <Bar dataKey="contribution" fill="#ff8eff" />
           </BarChart>
         </ResponsiveContainer>
       </div>
