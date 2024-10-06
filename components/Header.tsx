@@ -107,7 +107,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-gray-100 py-4 w-full fixed top-0 left-0 z-20 shadow-md">
+      <header className="bg-gray-100 py-4 w-full fixed top-0 left-0 z-20 shadow">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4">
           <div className="flex items-center">
             {currentUser && userRole && (
@@ -149,7 +149,7 @@ const Header: React.FC = () => {
         </div>
 
         {currentUser && userRole && isMenuOpen && (
-          <nav className="md:hidden bg-white shadow-lg rounded-b-lg transition-all duration-300 ease-in-out">
+          <nav className="md:hidden bg-white shadow rounded-b-lg transition-all duration-300 ease-in-out">
             <ul className="flex flex-col p-4 space-y-2">
               {userRole === 'admin' ? (
                 <>
@@ -164,17 +164,11 @@ const Header: React.FC = () => {
                     itemName="メンバー管理"
                     onClick={closeMenu}
                   />
-                  <li>
-                    <button
-                      onClick={() => {
-                        closeMenu();
-                        handleLogout();
-                      }}
-                      className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
-                    >
-                      ログアウト
-                    </button>
-                  </li>
+                  <MenuItem
+                    href="/"
+                    itemName="ログアウト"
+                    onClick={handleLogout}
+                  />
                 </>
               ) : userRole === 'member' ? (
                 <>

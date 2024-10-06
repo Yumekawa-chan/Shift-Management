@@ -77,17 +77,11 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose, userRole, handleLogo
                   itemName="メンバー管理"
                   onClick={onClose}
                 />
-                <li>
-                  <button
-                    onClick={() => {
-                      onClose();
-                      handleLogout();
-                    }}
-                    className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
-                  >
-                    ログアウト
-                  </button>
-                </li>
+                <MenuItem
+                    href="/"
+                    itemName="ログアウト"
+                    onClick={handleLogout}
+                  />
               </>
             ) : userRole === 'member' ? (
               <>
@@ -102,17 +96,11 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose, userRole, handleLogo
                   itemName="メンバー"
                   onClick={onClose}
                 />
-                <li>
-                  <button
-                    onClick={() => {
-                      onClose();
-                      handleLogout();
-                    }}
-                    className="w-full text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
-                  >
-                    ログアウト
-                  </button>
-                </li>
+                <MenuItem
+                    href="/"
+                    itemName="ログアウト"
+                    onClick={handleLogout}
+                  />
               </>
             ) : null}
           </ul>
