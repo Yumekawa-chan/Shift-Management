@@ -68,7 +68,7 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
       return;
     }
 
-    if (isNaN(Number(shots)) || Number(shots) <= 0) {
+    if (isNaN(Number(shots)) || Number(shots) < 0) {
       alert('撮影枚数は正の数である必要があります。');
       return;
     }
