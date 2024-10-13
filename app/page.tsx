@@ -348,7 +348,7 @@ const HomeMain = () => {
   return (
     <main className="flex flex-col items-center justify-center flex-grow bg-gradient-to-b from-blue-100 to-white">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-indigo-500 mb-4">Hyperionix</h1>
+        <h1 className="text-4xl font-bold text-indigo-500 mb-4">Yumekawa Management</h1>
         <p className="text-lg text-indigo-500">ログインまたは登録してください。</p>
       </div>
       <div className="flex flex-col items-center gap-4">

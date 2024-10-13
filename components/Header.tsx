@@ -138,7 +138,7 @@ const Header: React.FC = () => {
           </div>
 
           <p className="text-2xl font-bold text-purple-500">
-             Hyperionix 🌈 🦄
+             Yumekawa Management 🌈 🦄
           </p>
 
           <div className="flex items-center">
