@@ -1,5 +1,5 @@
 import React from 'react';
-
+import ReportDetailItem from '@/components/common/ReportDetailItem';
 interface Report {
   id: string;
   startTime: Date;
@@ -17,26 +17,15 @@ interface ReportItemProps {
 const ReportItem: React.FC<ReportItemProps> = ({ report }) => {
   return (
     <div className="mb-4 border-b pb-4">
-      <p>
-        <span className="font-bold">開始時間：</span>{' '}
-        {report.startTime.toLocaleString()}
-      </p>
-      <p>
-        <span className="font-bold">終了時間：</span>{' '}
-        {report.endTime.toLocaleString()}
-      </p>
-      <p>
-        <span className="font-bold">撮影場所：</span> {report.location}
-      </p>
-      <p>
-        <span className="font-bold">撮影枚数：</span> {report.shots}
-      </p>
-      <p>
-        <span className="font-bold">備考：</span> {report.notes}
-      </p>
+      <ReportDetailItem label="開始時間" value={report.startTime.toLocaleString()} />
+      <ReportDetailItem label="終了時間" value={report.endTime.toLocaleString()} />
+      <ReportDetailItem label="撮影場所" value={report.location} />
+      <ReportDetailItem label="撮影枚数" value={report.shots} />
+      <ReportDetailItem label="備考" value={report.notes} />
+
       {report.comments && (
         <div className="mt-2">
-          <span className="font-bold">管理者からのコメント：</span> {report.comments}
+          <ReportDetailItem label="管理者からのコメント" value={report.comments} />
         </div>
       )}
     </div>
