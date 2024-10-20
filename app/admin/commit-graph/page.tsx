@@ -4,14 +4,18 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
 } from 'recharts';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { firestore } from '@/src/lib/firebase';
-import {
-  collection, query, where, getDocs,
-} from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import useAdminAuth from '@/src/hooks/useAdminAuth';
 import SpinnerIcon from '@/components/SpinnerIcon';
 
@@ -130,14 +134,30 @@ const CommitGraph: React.FC = () => {
 const CommitGraphSection: React.FC<{ data: ChartData[] }> = ({ data }) => {
   return (
     <div className="w-full mx-auto p-6 bg-white rounded shadow">
-      <p className="text-2xl font-semibold mb-4 text-center">メンバーごとの貢献度</p>
+      <p className="text-2xl font-semibold mb-4 text-center">
+        メンバーごとの貢献度
+      </p>
       <div className="w-full h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} layout="vertical" margin={{
-            top: 20, right: 30, left: 20, bottom: 5,
-          }}>
+          <BarChart
+            data={data}
+            layout="vertical"
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" label={{ value: '貢献度', position: 'insideBottomRight', offset: 0 }} />
+            <XAxis
+              type="number"
+              label={{
+                value: '貢献度',
+                position: 'insideBottomRight',
+                offset: 0,
+              }}
+            />
             <YAxis dataKey="name" type="category" />
             <Tooltip />
             <Bar dataKey="contribution" fill="#ff8eff" />

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 interface ButtonProps {
   color: string;
@@ -8,7 +8,13 @@ interface ButtonProps {
   onClick: () => void;
 }
 
-const HomeButton = ({ color, hoverColor, icon, text, onClick }: ButtonProps) => {
+const HomeButton = ({
+  color,
+  hoverColor,
+  icon,
+  text,
+  onClick,
+}: ButtonProps) => {
   return (
     <button
       className={`text-white px-4 py-3 rounded transition-colors duration-300 flex items-center ${color} hover:${hoverColor}`}

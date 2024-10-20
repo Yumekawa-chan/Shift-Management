@@ -11,7 +11,7 @@ const dotGothic16 = localFont({
       style: 'normal',
     },
   ],
-  variable: '--font-dotgothic16', 
+  variable: '--font-dotgothic16',
 });
 
 export default function RootLayout({

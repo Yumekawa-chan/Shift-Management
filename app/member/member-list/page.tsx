@@ -4,7 +4,14 @@ import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { firestore } from '@/src/lib/firebase';
-import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+} from 'firebase/firestore';
 import useMemberAuth from '@/src/hooks/useMemberAuth';
 import SpinnerIcon from '@/components/SpinnerIcon';
 
@@ -106,7 +113,10 @@ const MemberList: React.FC = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={2} className="py-4 text-center text-gray-500">
+                      <td
+                        colSpan={2}
+                        className="py-4 text-center text-gray-500"
+                      >
                         メンバーが見つかりませんでした。
                       </td>
                     </tr>

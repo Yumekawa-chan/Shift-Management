@@ -5,7 +5,15 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { firestore } from '@/src/lib/firebase';
-import { collection, getDocs, doc, updateDoc, query, where, getDoc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  doc,
+  updateDoc,
+  query,
+  where,
+  getDoc,
+} from 'firebase/firestore';
 import useAdminAuth from '@/src/hooks/useAdminAuth';
 import SpinnerIcon from '@/components/SpinnerIcon';
 
@@ -176,7 +184,10 @@ const ManageMember: React.FC = () => {
                   ))}
                   {members.length === 0 && (
                     <tr>
-                      <td colSpan={3} className="py-4 text-center text-gray-500">
+                      <td
+                        colSpan={3}
+                        className="py-4 text-center text-gray-500"
+                      >
                         メンバーが見つかりませんでした。
                       </td>
                     </tr>
@@ -202,7 +213,10 @@ const ManageMember: React.FC = () => {
                       type="text"
                       value={editedMember.lastName}
                       onChange={(e) =>
-                        setEditedMember({ ...editedMember, lastName: e.target.value })
+                        setEditedMember({
+                          ...editedMember,
+                          lastName: e.target.value,
+                        })
                       }
                       className="w-full px-3 py-2 border rounded"
                       required
@@ -214,7 +228,10 @@ const ManageMember: React.FC = () => {
                       type="text"
                       value={editedMember.firstName}
                       onChange={(e) =>
-                        setEditedMember({ ...editedMember, firstName: e.target.value })
+                        setEditedMember({
+                          ...editedMember,
+                          firstName: e.target.value,
+                        })
                       }
                       className="w-full px-3 py-2 border rounded"
                       required
@@ -225,7 +242,10 @@ const ManageMember: React.FC = () => {
                     <select
                       value={editedMember.grade}
                       onChange={(e) =>
-                        setEditedMember({ ...editedMember, grade: e.target.value })
+                        setEditedMember({
+                          ...editedMember,
+                          grade: e.target.value,
+                        })
                       }
                       className="w-full px-3 py-2 border rounded"
                       required

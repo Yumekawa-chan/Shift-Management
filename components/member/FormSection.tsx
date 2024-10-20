@@ -76,7 +76,9 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
 
   return (
     <div className="w-full mx-auto p-6 bg-white rounded shadow">
-      <p className="text-2xl font-semibold mb-8 text-center">撮影報告フォーム</p>
+      <p className="text-2xl font-semibold mb-8 text-center">
+        撮影報告フォーム
+      </p>
       <form onSubmit={handleSubmit}>
         <FormInput
           label="撮影開始時間"
