@@ -11,6 +11,7 @@ import { doc, getDoc, setDoc, collection, getDocs, query, where } from 'firebase
 import { useRouter } from 'next/navigation';
 import { FirebaseError } from 'firebase/app';
 import useAuthRedirect from '@/src/hooks/useAuthRedirect';
+import HomeButton from '@/components/common/HomeButton';
 
 const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
   const [email, setEmail] = useState('');
@@ -352,28 +353,28 @@ const HomeMain = () => {
         <p className="text-lg text-indigo-500">ログインまたは登録してください。</p>
       </div>
       <div className="flex flex-col items-center gap-4">
-    <button
-      className="bg-pink-400 text-white px-4 py-3 rounded hover:bg-pink-500 transition-colors duration-300 flex items-center"
-      onClick={() => openModal(<AdminLoginForm closeModal={closeModal} />)}
-    >
-      <FaUser className="mr-2" />
-      管理者ログイン
-    </button>
-    <button
-      className="bg-sky-400 text-white px-4 py-3 rounded hover:bg-sky-500 transition-colors duration-300 flex items-center"
-      onClick={() => openModal(<MemberLoginForm closeModal={closeModal} />)}
-    >
-      <FaUser className="mr-2" />
-      メンバーログイン
-    </button>
-    <button
-      className="bg-purple-400 text-white px-5 py-3 rounded hover:bg-purple-500 transition-colors duration-300 flex items-center"
-      onClick={() => openModal(<MemberRegistrationForm closeModal={closeModal} />)}
-    >
-      <FaUserPlus className="mr-2" />
-      メンバー登録
-    </button>
-  </div>
+      <HomeButton
+        color="bg-pink-400"
+        hoverColor="bg-pink-500"
+        icon={<FaUser />}
+        text="管理者ログイン"
+        onClick={() => openModal(<AdminLoginForm closeModal={closeModal} />)}
+      />
+      <HomeButton
+        color="bg-sky-400"
+        hoverColor="bg-sky-500"
+        icon={<FaUser />}
+        text="メンバーログイン"
+        onClick={() => openModal(<MemberLoginForm closeModal={closeModal} />)}
+      />
+      <HomeButton
+        color="bg-purple-400"
+        hoverColor="bg-purple-500"
+        icon={<FaUserPlus />}
+        text="メンバー登録"
+        onClick={() => openModal(<MemberRegistrationForm closeModal={closeModal} />)}
+      />
+    </div>
 
     {modalIsOpen && (
     <div
