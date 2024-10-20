@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { FirebaseError } from 'firebase/app';
 import useAuthRedirect from '@/src/hooks/useAuthRedirect';
 import HomeButton from '@/components/common/HomeButton';
+import ModalButton from '@/components/common/ModalButton';
 
 const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
   const [email, setEmail] = useState('');
@@ -74,12 +75,13 @@ const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <button
-        className="bg-pink-500 text-white px-6 py-3 rounded hover:bg-pink-600 transition-colors duration-300 mt-4 flex items-center justify-center"
+      <ModalButton
+        color="bg-pink-500"
+        hoverColor="bg-pink-600"
+        icon={<FaSignInAlt />}
+        text="ログイン"
         onClick={handleAdminLogin}
-      >
-        <FaSignInAlt className="mr-2" /> ログイン
-      </button>
+      />
     </div>
   );
 };
@@ -145,12 +147,13 @@ const MemberLoginForm = ({ closeModal }: { closeModal: () => void }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <button
-        className="bg-sky-400 text-white px-6 py-3 rounded hover:bg-sky-500 transition-colors duration-300 mt-4 flex items-center justify-center"
+      <ModalButton
+        color="bg-sky-400"
+        hoverColor="bg-sky-500"
+        icon={<FaSignInAlt />}
+        text="ログイン"
         onClick={handleMemberLogin}
-      >
-        <FaSignInAlt className="mr-2" /> ログイン
-      </button>
+      />
     </div>
   );
 };
@@ -308,12 +311,12 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
           ))}
         </select>
       </label>
-      <button
-        className="bg-purple-500 text-white px-6 py-3 rounded hover:bg-purple-600 transition-colors duration-300 mt-4 flex items-center justify-center"
+      <ModalButton
+        color="bg-purple-500"
+        hoverColor="bg-purple-600"
+        text="登録する"
         onClick={handleMemberRegistration}
-      >
-        登録する
-      </button>
+      />
     </div>
   );
 };
