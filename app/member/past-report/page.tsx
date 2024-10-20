@@ -70,7 +70,6 @@ const PastReportSection: React.FC = () => {
     if (leader !== undefined) {
       fetchReports();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leader]);
 
   return (
