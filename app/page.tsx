@@ -51,10 +51,10 @@ const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold mb-4 flex items-center text-pink-500">
+      <p className="text-xl font-semibold mb-4 flex items-center text-pink-500">
         <FaUser className="mr-2" /> 管理者ログイン
-      </h2>
-      {error && <p className="text-rose-400">{error}</p>}
+      </p>
+      {error && <p className="text-rose-400">ログインに失敗しました。</p>}
       <label className="flex flex-col text-pink-500">
         メールアドレス
         <input
@@ -123,10 +123,10 @@ const MemberLoginForm = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold mb-4 flex items-center text-sky-500">
+      <p className="text-xl font-semibold mb-4 flex items-center text-sky-500">
         <FaUser className="mr-2" /> メンバーログイン
-      </h2>
-      {error && <p className="text-rose-400">{error}</p>}
+      </p>
+      {error && <p className="text-rose-400">ログインに失敗しました。</p>}
       <label className="flex flex-col text-sky-500">
         メールアドレス
         <input
@@ -229,10 +229,10 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold mb-4 flex items-center text-purple-500">
+      <p className="text-xl font-semibold mb-4 flex items-center text-purple-500">
         <FaUserPlus className="mr-2" /> メンバー登録
-      </h2>
-      {error && <p className="text-rose-400">{error}</p>}
+      </p>
+      {error && <p className="text-rose-400">ログインに失敗しました。</p>}
       <label className="flex flex-col text-purple-500">
         姓
         <input
