@@ -19,8 +19,8 @@ interface Report {
   comments?: string;
 }
 
-const MemberPastReportPage: React.FC = () => {
-  const { loading, leader } = useMemberAuth();
+const PastReportSection: React.FC = () => {
+  const { leader } = useMemberAuth();
   const [reports, setReports] = useState<Report[]>([]);
   const [reportsLoading, setReportsLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -73,6 +73,68 @@ const MemberPastReportPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leader]);
 
+  return (
+    <div className="w-full max-w-2xl">
+      <div className="w-full mx-auto p-6 bg-white rounded shadow">
+        <p className="text-2xl font-semibold mb-8 text-center">
+          過去の撮影報告
+        </p>
+        {reportsLoading ? (
+          <div className="flex items-center justify-center">
+            <SpinnerIcon />
+          </div>
+        ) : reports.length === 0 ? (
+          <p className="text-center text-gray-500">
+            提出された報告はありません。
+          </p>
+        ) : (
+          <>
+            {currentReports.map((report) => (
+              <div key={report.id} className="mb-4 border-b pb-4">
+                <ReportDetailItem
+                  label="開始時間"
+                  value={report.startTime}
+                />
+                <ReportDetailItem label="終了時間" value={report.endTime} />
+                <ReportDetailItem label="撮影場所" value={report.location} />
+                <ReportDetailItem label="撮影枚数" value={report.shots} />
+                <ReportDetailItem label="備考" value={report.notes} />
+                {report.comments && (
+                  <ReportDetailItem
+                    label="管理者コメント"
+                    value={report.comments}
+                  />
+                )}
+              </div>
+            ))}
+
+            <div className="flex justify-center mt-4 space-x-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (number) => (
+                  <button
+                    key={number}
+                    onClick={() => paginate(number)}
+                    className={`px-3 py-1 rounded ${
+                      currentPage === number
+                        ? 'bg-purple-500 text-white'
+                        : 'bg-purple-300 text-white'
+                    }`}
+                  >
+                    {number}
+                  </button>
+                )
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const MemberPastReportPage: React.FC = () => {
+  const { loading } = useMemberAuth();
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -85,65 +147,7 @@ const MemberPastReportPage: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-grow flex flex-col items-center p-4 pt-[8rem] pb-[3rem]">
-        <div className="w-full max-w-2xl">
-          <div className="w-full mx-auto p-6 bg-white rounded shadow">
-            <p className="text-2xl font-semibold mb-8 text-center">
-              過去の撮影報告
-            </p>
-            {reportsLoading ? (
-              <div className="flex items-center justify-center">
-                <SpinnerIcon />
-              </div>
-            ) : reports.length === 0 ? (
-              <p className="text-center text-gray-500">
-                提出された報告はありません。
-              </p>
-            ) : (
-              <>
-                {currentReports.map((report) => (
-                  <div key={report.id} className="mb-4 border-b pb-4">
-                    <ReportDetailItem
-                      label="開始時間"
-                      value={report.startTime}
-                    />
-                    <ReportDetailItem label="終了時間" value={report.endTime} />
-                    <ReportDetailItem
-                      label="撮影場所"
-                      value={report.location}
-                    />
-                    <ReportDetailItem label="撮影枚数" value={report.shots} />
-                    <ReportDetailItem label="備考" value={report.notes} />
-
-                    {report.comments && (
-                      <ReportDetailItem
-                        label="管理者コメント"
-                        value={report.comments}
-                      />
-                    )}
-                  </div>
-                ))}
-
-                <div className="flex justify-center mt-4 space-x-2">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                    (number) => (
-                      <button
-                        key={number}
-                        onClick={() => paginate(number)}
-                        className={`px-3 py-1 rounded ${
-                          currentPage === number
-                            ? 'bg-purple-500 text-white'
-                            : 'bg-purple-300 text-white'
-                        }`}
-                      >
-                        {number}
-                      </button>
-                    )
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
+        <PastReportSection />
       </main>
       <Footer />
     </div>
