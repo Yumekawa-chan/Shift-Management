@@ -6,11 +6,25 @@ import Footer from '@/components/Footer';
 import SpinnerIcon from '@/components/SpinnerIcon';
 import { FaTimes, FaUser, FaUserPlus, FaSignInAlt } from 'react-icons/fa';
 import { auth, firestore } from '@/src/lib/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, getDoc, setDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
+import {
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { FirebaseError } from 'firebase/app';
 import useAuthRedirect from '@/src/hooks/useAuthRedirect';
+import HomeButton from '@/components/common/HomeButton';
+import ModalButton from '@/components/common/ModalButton';
 
 const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
   const [email, setEmail] = useState('');
@@ -20,7 +34,11 @@ const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
 
   const handleAdminLogin = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       const userDocRef = doc(firestore, 'users', user.uid);
@@ -49,10 +67,10 @@ const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold mb-4 flex items-center text-pink-500">
+      <p className="text-xl font-semibold mb-4 flex items-center text-pink-500">
         <FaUser className="mr-2" /> 管理者ログイン
-      </h2>
-      {error && <p className="text-rose-400">{error}</p>}
+      </p>
+      {error && <p className="text-rose-400">ログインに失敗しました。</p>}
       <label className="flex flex-col text-pink-500">
         メールアドレス
         <input
@@ -73,12 +91,13 @@ const AdminLoginForm = ({ closeModal }: { closeModal: () => void }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <button
-        className="bg-pink-500 text-white px-6 py-3 rounded hover:bg-pink-600 transition-colors duration-300 mt-4 flex items-center justify-center"
+      <ModalButton
+        color="bg-pink-500"
+        hoverColor="bg-pink-600"
+        icon={<FaSignInAlt />}
+        text="ログイン"
         onClick={handleAdminLogin}
-      >
-        <FaSignInAlt className="mr-2" /> ログイン
-      </button>
+      />
     </div>
   );
 };
@@ -91,7 +110,11 @@ const MemberLoginForm = ({ closeModal }: { closeModal: () => void }) => {
 
   const handleMemberLogin = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       const userDocRef = doc(firestore, 'users', user.uid);
@@ -120,10 +143,10 @@ const MemberLoginForm = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold mb-4 flex items-center text-sky-500">
+      <p className="text-xl font-semibold mb-4 flex items-center text-sky-500">
         <FaUser className="mr-2" /> メンバーログイン
-      </h2>
-      {error && <p className="text-rose-400">{error}</p>}
+      </p>
+      {error && <p className="text-rose-400">ログインに失敗しました。</p>}
       <label className="flex flex-col text-sky-500">
         メールアドレス
         <input
@@ -144,12 +167,13 @@ const MemberLoginForm = ({ closeModal }: { closeModal: () => void }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <button
-        className="bg-sky-400 text-white px-6 py-3 rounded hover:bg-sky-500 transition-colors duration-300 mt-4 flex items-center justify-center"
+      <ModalButton
+        color="bg-sky-400"
+        hoverColor="bg-sky-500"
+        icon={<FaSignInAlt />}
+        text="ログイン"
         onClick={handleMemberLogin}
-      >
-        <FaSignInAlt className="mr-2" /> ログイン
-      </button>
+      />
     </div>
   );
 };
@@ -162,14 +186,19 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [leader, setLeader] = useState('');
-  const [adminUsers, setAdminUsers] = useState<{ uid: string; lastName: string; firstName: string }[]>([]);
+  const [adminUsers, setAdminUsers] = useState<
+    { uid: string; lastName: string; firstName: string }[]
+  >([]);
   const [error, setError] = useState('');
   const router = useRouter();
 
   useEffect(() => {
     const fetchAdminUsers = async () => {
       try {
-        const q = query(collection(firestore, 'users'), where('role', '==', 'admin'));
+        const q = query(
+          collection(firestore, 'users'),
+          where('role', '==', 'admin')
+        );
         const querySnapshot = await getDocs(q);
         const admins = querySnapshot.docs.map((doc) => ({
           uid: doc.id,
@@ -200,7 +229,11 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
       return;
     }
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       await setDoc(doc(firestore, 'users', user.uid), {
@@ -208,7 +241,7 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
         firstName,
         grade,
         email,
-        leader, 
+        leader,
         role: 'member',
         createdAt: new Date(),
       });
@@ -225,10 +258,10 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold mb-4 flex items-center text-purple-500">
+      <p className="text-xl font-semibold mb-4 flex items-center text-purple-500">
         <FaUserPlus className="mr-2" /> メンバー登録
-      </h2>
-      {error && <p className="text-rose-400">{error}</p>}
+      </p>
+      {error && <p className="text-rose-400">ログインに失敗しました。</p>}
       <label className="flex flex-col text-purple-500">
         姓
         <input
@@ -307,12 +340,12 @@ const MemberRegistrationForm = ({ closeModal }: { closeModal: () => void }) => {
           ))}
         </select>
       </label>
-      <button
-        className="bg-purple-500 text-white px-6 py-3 rounded hover:bg-purple-600 transition-colors duration-300 mt-4 flex items-center justify-center"
+      <ModalButton
+        color="bg-purple-500"
+        hoverColor="bg-purple-600"
+        text="登録する"
         onClick={handleMemberRegistration}
-      >
-        登録する
-      </button>
+      />
     </div>
   );
 };
@@ -321,12 +354,12 @@ const HomeMain = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const loading = useAuthRedirect(); 
+  const loading = useAuthRedirect();
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <SpinnerIcon /> 
+        <SpinnerIcon />
       </div>
     );
   }
@@ -348,54 +381,60 @@ const HomeMain = () => {
   return (
     <main className="flex flex-col items-center justify-center flex-grow bg-gradient-to-b from-blue-100 to-white">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-indigo-500 mb-4">Yumekawa Management</h1>
-        <p className="text-lg text-indigo-500">ログインまたは登録してください。</p>
+        <h1 className="text-4xl font-bold text-indigo-500 mb-4">
+          Yumekawa Management
+        </h1>
+        <p className="text-lg text-indigo-500">
+          ログインまたは登録してください。
+        </p>
       </div>
       <div className="flex flex-col items-center gap-4">
-    <button
-      className="bg-pink-400 text-white px-4 py-3 rounded hover:bg-pink-500 transition-colors duration-300 flex items-center"
-      onClick={() => openModal(<AdminLoginForm closeModal={closeModal} />)}
-    >
-      <FaUser className="mr-2" />
-      管理者ログイン
-    </button>
-    <button
-      className="bg-sky-400 text-white px-4 py-3 rounded hover:bg-sky-500 transition-colors duration-300 flex items-center"
-      onClick={() => openModal(<MemberLoginForm closeModal={closeModal} />)}
-    >
-      <FaUser className="mr-2" />
-      メンバーログイン
-    </button>
-    <button
-      className="bg-purple-400 text-white px-5 py-3 rounded hover:bg-purple-500 transition-colors duration-300 flex items-center"
-      onClick={() => openModal(<MemberRegistrationForm closeModal={closeModal} />)}
-    >
-      <FaUserPlus className="mr-2" />
-      メンバー登録
-    </button>
-  </div>
-
-    {modalIsOpen && (
-    <div
-      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50 transition-opacity duration-300 ${
-        modalVisible ? 'opacity-100' : 'opacity-0'
-      }`}
-    >
-      <div
-        className={`bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 border border-purple-200 rounded-2xl shadow-2xl max-w-md w-full p-6 relative transform transition-transform duration-300 ${
-          modalVisible ? 'scale-100' : 'scale-90'
-        }`}
-      >
-        <button
-          className="absolute top-3 right-3 text-purple-400 hover:text-purple-600 transition-colors duration-200"
-          onClick={closeModal}
-        >
-          <FaTimes size={24} />
-        </button>
-        {modalContent}
+        <HomeButton
+          color="bg-pink-400"
+          hoverColor="bg-pink-500"
+          icon={<FaUser />}
+          text="管理者ログイン"
+          onClick={() => openModal(<AdminLoginForm closeModal={closeModal} />)}
+        />
+        <HomeButton
+          color="bg-sky-400"
+          hoverColor="bg-sky-500"
+          icon={<FaUser />}
+          text="メンバーログイン"
+          onClick={() => openModal(<MemberLoginForm closeModal={closeModal} />)}
+        />
+        <HomeButton
+          color="bg-purple-400"
+          hoverColor="bg-purple-500"
+          icon={<FaUserPlus />}
+          text="メンバー登録"
+          onClick={() =>
+            openModal(<MemberRegistrationForm closeModal={closeModal} />)
+          }
+        />
       </div>
-    </div>
-  )}
+
+      {modalIsOpen && (
+        <div
+          className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50 transition-opacity duration-300 ${
+            modalVisible ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <div
+            className={`bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 border border-purple-200 rounded-2xl shadow-2xl max-w-md w-full p-6 relative transform transition-transform duration-300 ${
+              modalVisible ? 'scale-100' : 'scale-90'
+            }`}
+          >
+            <button
+              className="absolute top-3 right-3 text-purple-400 hover:text-purple-600 transition-colors duration-200"
+              onClick={closeModal}
+            >
+              <FaTimes size={24} />
+            </button>
+            {modalContent}
+          </div>
+        </div>
+      )}
     </main>
   );
 };

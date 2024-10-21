@@ -12,7 +12,12 @@ interface SideNavProps {
   handleLogout: () => void;
 }
 
-const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose, userRole, handleLogout }) => {
+const SideNav: React.FC<SideNavProps> = ({
+  isOpen,
+  onClose,
+  userRole,
+  handleLogout,
+}) => {
   const handleOverlayClick = () => {
     onClose();
   };
@@ -66,17 +71,49 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose, userRole, handleLogo
           <ul className="flex flex-col space-y-4">
             {userRole === 'admin' ? (
               <>
-                <MenuItem href="/admin" itemName="撮影報告一覧" onClick={onClose} />
-                <MenuItem href="/admin/commit-graph" itemName="貢献グラフ" onClick={onClose} />
-                <MenuItem href="/admin/manage-member" itemName="メンバー管理" onClick={onClose} />
-                <MenuItem href="/" itemName="ログアウト" onClick={handleLogout} />
+                <MenuItem
+                  href="/admin"
+                  itemName="撮影報告一覧"
+                  onClick={onClose}
+                />
+                <MenuItem
+                  href="/admin/commit-graph"
+                  itemName="貢献グラフ"
+                  onClick={onClose}
+                />
+                <MenuItem
+                  href="/admin/manage-member"
+                  itemName="メンバー管理"
+                  onClick={onClose}
+                />
+                <MenuItem
+                  href="/"
+                  itemName="ログアウト"
+                  onClick={handleLogout}
+                />
               </>
             ) : userRole === 'member' ? (
               <>
-                <MenuItem href="/member" itemName="撮影報告" onClick={onClose} />
-                <MenuItem href="/member/past-report" itemName="撮影報告履歴" onClick={onClose} />
-                <MenuItem href="/member/member-list" itemName="メンバー" onClick={onClose} />
-                <MenuItem href="/" itemName="ログアウト" onClick={handleLogout} />
+                <MenuItem
+                  href="/member"
+                  itemName="撮影報告"
+                  onClick={onClose}
+                />
+                <MenuItem
+                  href="/member/past-report"
+                  itemName="撮影報告履歴"
+                  onClick={onClose}
+                />
+                <MenuItem
+                  href="/member/member-list"
+                  itemName="メンバー"
+                  onClick={onClose}
+                />
+                <MenuItem
+                  href="/"
+                  itemName="ログアウト"
+                  onClick={handleLogout}
+                />
               </>
             ) : null}
           </ul>

@@ -138,7 +138,7 @@ const Header: React.FC = () => {
           </div>
 
           <p className="text-2xl font-bold text-purple-500">
-             Yumekawa Management 🌈 🦄
+            Yumekawa Management 🌈 🦄
           </p>
 
           <div className="flex items-center">
@@ -155,7 +155,11 @@ const Header: React.FC = () => {
             <ul className="flex flex-col p-4 space-y-2">
               {userRole === 'admin' ? (
                 <>
-                  <MenuItem href="/admin" itemName="撮影報告一覧" onClick={closeMenu} />
+                  <MenuItem
+                    href="/admin"
+                    itemName="撮影報告一覧"
+                    onClick={closeMenu}
+                  />
                   <MenuItem
                     href="/admin/commit-graph"
                     itemName="貢献グラフ"
@@ -174,7 +178,11 @@ const Header: React.FC = () => {
                 </>
               ) : userRole === 'member' ? (
                 <>
-                  <MenuItem href="/member" itemName="撮影報告" onClick={closeMenu} />
+                  <MenuItem
+                    href="/member"
+                    itemName="撮影報告"
+                    onClick={closeMenu}
+                  />
                   <MenuItem
                     href="/member/past-report"
                     itemName="撮影報告履歴"

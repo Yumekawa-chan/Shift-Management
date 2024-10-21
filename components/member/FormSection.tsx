@@ -3,44 +3,7 @@
 import React, { useState } from 'react';
 import { auth, firestore } from '@/src/lib/firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-
-interface FormInputProps {
-  label: string;
-  type: string;
-  placeholder: string;
-  value: string | number;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-}
-
-const FormInput: React.FC<FormInputProps> = ({
-  label,
-  type,
-  placeholder,
-  value,
-  onChange,
-}) => (
-  <div className="mb-4">
-    <label className="block text-gray-700 mb-1">{label}</label>
-    {type === 'textarea' ? (
-      <textarea
-        className="w-full px-3 py-2 border rounded"
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-    ) : (
-      <input
-        type={type}
-        className="w-full px-3 py-2 border rounded"
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-    )}
-  </div>
-);
+import FormInput from './FormInput';
 
 interface FormSectionProps {
   leader: string | null;
@@ -113,7 +76,9 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
 
   return (
     <div className="w-full mx-auto p-6 bg-white rounded shadow">
-      <p className="text-2xl font-semibold mb-8 text-center">撮影報告フォーム</p>
+      <p className="text-2xl font-semibold mb-8 text-center">
+        撮影報告フォーム
+      </p>
       <form onSubmit={handleSubmit}>
         <FormInput
           label="撮影開始時間"

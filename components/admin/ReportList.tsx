@@ -55,7 +55,9 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
           return;
         }
 
-        const memberUids: string[] = membersSnapshot.docs.map((docSnap) => docSnap.id);
+        const memberUids: string[] = membersSnapshot.docs.map(
+          (docSnap) => docSnap.id
+        );
 
         const chunkSize = 10;
         const chunks: string[][] = [];
@@ -106,7 +108,9 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
                 const data = reportDoc.data();
 
                 if (!data.userId) {
-                  console.warn(`ドキュメント ${reportDoc.id} に userId フィールドがありません。`);
+                  console.warn(
+                    `ドキュメント ${reportDoc.id} に userId フィールドがありません。`
+                  );
                   return null;
                 }
 
@@ -114,7 +118,10 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
                 const userDocSnap = await getDoc(userDocRef);
                 let memberName = '不明なユーザー';
                 if (userDocSnap.exists()) {
-                  const userData = userDocSnap.data() as { firstName: string; lastName: string };
+                  const userData = userDocSnap.data() as {
+                    firstName: string;
+                    lastName: string;
+                  };
                   memberName = `${userData.lastName} ${userData.firstName}`;
                 }
 
@@ -129,7 +136,10 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
                   comments: data.comments || '',
                 };
               } catch (error) {
-                console.error(`ドキュメント ${reportDoc.id} の処理中にエラーが発生しました:`, error);
+                console.error(
+                  `ドキュメント ${reportDoc.id} の処理中にエラーが発生しました:`,
+                  error
+                );
                 return null;
               }
             })
@@ -235,7 +245,9 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
           />
         ))
       ) : (
-        <p className="text-center text-gray-500">選択した日に報告はありません。</p>
+        <p className="text-center text-gray-500">
+          選択した日に報告はありません。
+        </p>
       )}
     </div>
   );

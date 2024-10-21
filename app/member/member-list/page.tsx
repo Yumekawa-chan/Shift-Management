@@ -4,9 +4,17 @@ import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { firestore } from '@/src/lib/firebase';
-import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+} from 'firebase/firestore';
 import useMemberAuth from '@/src/hooks/useMemberAuth';
 import SpinnerIcon from '@/components/SpinnerIcon';
+import MemberRow from '@/components/common/MemberRow';
 
 interface Member {
   id: string;
@@ -15,7 +23,7 @@ interface Member {
   grade: string;
 }
 
-const MemberList: React.FC = () => {
+const MemberListSection: React.FC = () => {
   const { loading, leader } = useMemberAuth();
   const [members, setMembers] = useState<Member[]>([]);
   const [teamName, setTeamName] = useState<string>('');
@@ -78,44 +86,45 @@ const MemberList: React.FC = () => {
   }
 
   return (
+    <div className="w-full max-w-4xl">
+      <div className="w-full mx-auto p-6 bg-white rounded shadow">
+        <p className="text-2xl font-semibold mb-8 text-center">
+          <span className="mr-5">{teamName}班</span>メンバーリスト
+        </p>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border-b">名前</th>
+                <th className="py-2 px-4 border-b">学年</th>
+              </tr>
+            </thead>
+            <tbody>
+              {members.length > 0 ? (
+                members.map((member) => (
+                  <MemberRow key={member.id} member={member} />
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={2} className="py-4 text-center text-gray-500">
+                    メンバーが見つかりませんでした。
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MemberList: React.FC = () => {
+  return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-grow flex flex-col items-center justify-center p-4">
-        <div className="w-full max-w-2xl">
-          <div className="w-full mx-auto p-6 bg-white rounded shadow">
-            <p className="text-2xl font-semibold mb-8 text-center">
-              <span className="mr-5">{teamName}班</span>メンバーリスト
-            </p>
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-white">
-                <thead>
-                  <tr>
-                    <th className="py-2 px-4 border-b">名前</th>
-                    <th className="py-2 px-4 border-b">学年</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {members.length > 0 ? (
-                    members.map((member) => (
-                      <tr key={member.id} className="text-center">
-                        <td className="py-2 px-4 border-b">
-                          {member.lastName} {member.firstName}
-                        </td>
-                        <td className="py-2 px-4 border-b">{member.grade}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={2} className="py-4 text-center text-gray-500">
-                        メンバーが見つかりませんでした。
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        <MemberListSection />
       </main>
       <Footer />
     </div>
