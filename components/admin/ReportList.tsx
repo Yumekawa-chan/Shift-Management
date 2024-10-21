@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ReportItem from '@/components/admin/ReportItem';
+import { toast } from 'react-hot-toast';
 import { firestore } from '@/src/lib/firebase';
 import {
   collection,
@@ -199,7 +200,7 @@ const ReportList: React.FC<ReportListProps> = ({ adminUid }) => {
       );
     } catch (error) {
       console.error('コメントの更新に失敗しました：', error);
-      alert('コメントの更新に失敗しました。');
+      toast.error('コメントの更新に失敗しました。');
     }
   };
 
