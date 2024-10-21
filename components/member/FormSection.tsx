@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { auth, firestore } from '@/src/lib/firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import FormInput from './FormInput';
+import toast from 'react-hot-toast';
 
 interface FormSectionProps {
   leader: string | null;
@@ -22,17 +23,17 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
     const user = auth.currentUser;
     if (!user) {
       console.error('ユーザーがログインしていません。');
-      alert('ユーザーがログインしていません。再度ログインしてください。');
+      toast.error('ユーザーがログインしていません。再度ログインしてください。');
       return;
     }
 
     if (!startTime || !endTime || !location || !shots) {
-      alert('すべての必須フィールドを入力してください。');
+      toast.error('すべての必須フィールドを入力してください。');
       return;
     }
 
     if (isNaN(Number(shots)) || Number(shots) < 0) {
-      alert('撮影枚数は正の数である必要があります。');
+      toast.error('撮影枚数は正の数である必要があります。');
       return;
     }
 
@@ -40,12 +41,12 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
     const endDate = new Date(endTime);
 
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      alert('有効な日時を入力してください。');
+      toast.error('有効な日時を入力してください。');
       return;
     }
 
     if (startDate >= endDate) {
-      alert('撮影開始時間は撮影終了時間より前である必要があります。');
+      toast.error('撮影開始時間は撮影終了時間より前である必要があります。');
       return;
     }
 
@@ -67,10 +68,10 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
       setLocation('');
       setShots('');
       setNotes('');
-      alert('報告が送信されました。');
+      toast.success('報告が送信されました。');
     } catch (error: unknown) {
       console.error('報告の送信に失敗しました：', error);
-      alert('報告の送信に失敗しました。再度お試しください。');
+      toast.error('報告の送信に失敗しました。再度お試しください。');
     }
   };
 

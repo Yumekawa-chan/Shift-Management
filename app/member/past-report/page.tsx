@@ -8,6 +8,7 @@ import SpinnerIcon from '@/components/SpinnerIcon';
 import { auth, firestore } from '@/src/lib/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import ReportDetailItem from '@/components/common/ReportDetailItem';
+import toast from 'react-hot-toast';
 
 interface Report {
   id: string;
@@ -54,7 +55,7 @@ const PastReportSection: React.FC = () => {
       setReports(reportsData);
     } catch (error: unknown) {
       console.error('報告データの取得に失敗しました：', error);
-      alert('報告データの取得に失敗しました。再度お試しください。');
+      toast.error('報告データの取得に失敗しました。再度お試しください。');
     }
     setReportsLoading(false);
   };

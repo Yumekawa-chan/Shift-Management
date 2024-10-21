@@ -16,6 +16,7 @@ import {
 } from 'firebase/firestore';
 import useAdminAuth from '@/src/hooks/useAdminAuth';
 import SpinnerIcon from '@/components/SpinnerIcon';
+import toast from 'react-hot-toast';
 
 interface Member {
   id: string;
@@ -81,7 +82,7 @@ const ManageMemberSection: React.FC = () => {
       );
     } catch (error) {
       console.error('メンバーの更新中にエラーが発生しました：', error);
-      alert('メンバーの削除に失敗しました。');
+      toast.error('メンバーの削除に失敗しました。');
     }
   };
 
@@ -107,7 +108,7 @@ const ManageMemberSection: React.FC = () => {
       handleCloseModal();
     } catch (error) {
       console.error('メンバー情報の更新に失敗しました：', error);
-      alert('メンバー情報の更新に失敗しました。');
+      toast.error('メンバー情報の更新に失敗しました。');
     }
   };
 
