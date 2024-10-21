@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { firestore } from '@/src/lib/firebase';
 import {
@@ -15,7 +15,7 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import useAdminAuth from '@/src/hooks/useAdminAuth';
-import SpinnerIcon from '@/components/SpinnerIcon';
+import SpinnerIcon from '@/components/common/SpinnerIcon';
 import toast from 'react-hot-toast';
 
 interface Member {

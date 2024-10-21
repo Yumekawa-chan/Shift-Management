@@ -16,7 +16,7 @@ import {
   doc,
   updateDoc,
 } from 'firebase/firestore';
-import SpinnerIcon from '@/components/SpinnerIcon';
+import SpinnerIcon from '@/components/common/SpinnerIcon';
 
 interface Report {
   id: string;

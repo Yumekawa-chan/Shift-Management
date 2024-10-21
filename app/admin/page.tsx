@@ -1,10 +1,10 @@
 'use client';
 
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
 import useAdminAuth from '@/src/hooks/useAdminAuth';
 import ReportList from '@/components/admin/ReportList';
-import SpinnerIcon from '@/components/SpinnerIcon';
+import SpinnerIcon from '@/components/common/SpinnerIcon';
 
 const AdminPage: React.FC = () => {
   const { loading, adminUid } = useAdminAuth();

@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
 import useMemberAuth from '@/src/hooks/useMemberAuth';
-import SpinnerIcon from '@/components/SpinnerIcon';
+import SpinnerIcon from '@/components/common/SpinnerIcon';
 import { auth, firestore } from '@/src/lib/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import ReportDetailItem from '@/components/common/ReportDetailItem';

@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import SpinnerIcon from '@/components/SpinnerIcon';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
+import SpinnerIcon from '@/components/common/SpinnerIcon';
 import { FaTimes, FaUser, FaUserPlus, FaSignInAlt } from 'react-icons/fa';
 import { auth, firestore } from '@/src/lib/firebase';
 import {

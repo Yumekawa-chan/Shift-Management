@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { MdMenu } from 'react-icons/md';
-import SideNav from '@/components/SideNav';
+import SideNav from '@/components/common/SideNav';
 import MenuItem from '@/components/common/MenuItem';
 import useBodyScrollLock from '@/src/hooks/useBodyScrollLock';
 import { auth, firestore } from '@/src/lib/firebase';

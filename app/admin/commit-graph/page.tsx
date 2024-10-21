@@ -10,12 +10,12 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from 'recharts';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
 import { firestore } from '@/src/lib/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import useAdminAuth from '@/src/hooks/useAdminAuth';
-import SpinnerIcon from '@/components/SpinnerIcon';
+import SpinnerIcon from '@/components/common/SpinnerIcon';
 
 interface ChartData {
   name: string;

@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
 import useMemberAuth from '@/src/hooks/useMemberAuth';
 import FormSection from '@/components/member/FormSection';
-import SpinnerIcon from '@/components/SpinnerIcon';
+import SpinnerIcon from '@/components/common/SpinnerIcon';
 
 const MemberPage: React.FC = () => {
   const { loading, leader } = useMemberAuth();
