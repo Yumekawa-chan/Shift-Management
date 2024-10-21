@@ -90,10 +90,7 @@ const PastReportSection: React.FC = () => {
           <>
             {currentReports.map((report) => (
               <div key={report.id} className="mb-4 border-b pb-4">
-                <ReportDetailItem
-                  label="開始時間"
-                  value={report.startTime}
-                />
+                <ReportDetailItem label="開始時間" value={report.startTime} />
                 <ReportDetailItem label="終了時間" value={report.endTime} />
                 <ReportDetailItem label="撮影場所" value={report.location} />
                 <ReportDetailItem label="撮影枚数" value={report.shots} />

@@ -14,7 +14,7 @@ import {
 } from 'firebase/firestore';
 import useMemberAuth from '@/src/hooks/useMemberAuth';
 import SpinnerIcon from '@/components/SpinnerIcon';
-import MemberRow from '@/components/common/MemberRow'; 
+import MemberRow from '@/components/common/MemberRow';
 
 interface Member {
   id: string;
