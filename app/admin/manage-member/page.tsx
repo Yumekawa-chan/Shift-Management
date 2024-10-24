@@ -80,6 +80,7 @@ const ManageMemberSection: React.FC = () => {
       setMembers((prevMembers) =>
         prevMembers.filter((member) => member.uid !== uid)
       );
+      toast.error('メンバーを削除しました。');
     } catch (error) {
       console.error('メンバーの更新中にエラーが発生しました：', error);
       toast.error('メンバーの削除に失敗しました。');
@@ -106,6 +107,7 @@ const ManageMemberSection: React.FC = () => {
         )
       );
       handleCloseModal();
+      toast.success('メンバー情報を更新しました。');
     } catch (error) {
       console.error('メンバー情報の更新に失敗しました：', error);
       toast.error('メンバー情報の更新に失敗しました。');
