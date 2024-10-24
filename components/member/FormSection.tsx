@@ -3,7 +3,12 @@
 import React from 'react';
 import { auth, firestore } from '@/src/lib/firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { useForm, Controller, SubmitHandler, FieldErrors } from 'react-hook-form';
+import {
+  useForm,
+  Controller,
+  SubmitHandler,
+  FieldErrors,
+} from 'react-hook-form';
 import FormInput from './FormInput';
 import toast from 'react-hot-toast';
 
@@ -66,7 +71,9 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
 
   return (
     <div className="w-full mx-auto p-6 bg-white rounded shadow">
-      <p className="text-2xl font-semibold mb-8 text-center">撮影報告フォーム</p>
+      <p className="text-2xl font-semibold mb-8 text-center">
+        撮影報告フォーム
+      </p>
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <Controller
           name="startTime"
@@ -113,9 +120,10 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
         <Controller
           name="shots"
           control={control}
-          rules={{ 
+          rules={{
             required: '撮影枚数は必須です。',
-            validate: (value) => value > 0 || '撮影枚数は正の数である必要があります。',
+            validate: (value) =>
+              value > 0 || '撮影枚数は正の数である必要があります。',
           }}
           render={({ field }) => (
             <FormInput
@@ -140,7 +148,10 @@ const FormSection: React.FC<FormSectionProps> = ({ leader }) => {
           )}
         />
 
-        <button type="submit" className="w-full bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600">
+        <button
+          type="submit"
+          className="w-full bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600"
+        >
           送信
         </button>
       </form>
