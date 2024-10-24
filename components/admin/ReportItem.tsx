@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Report {
   id: string;
@@ -20,7 +21,12 @@ const ReportItem: React.FC<ReportItemProps> = ({ report, onCommentChange }) => {
   const [comment, setComment] = useState(report.comments);
 
   const handleCommentSave = () => {
-    onCommentChange(report.id, comment);
+    if (comment.trim() === '') {
+      toast.error('コメントを入力してください。');
+    } else {
+      onCommentChange(report.id, comment);
+      toast.success('コメントを保存しました。');
+    }
   };
 
   return (
