@@ -1,9 +1,11 @@
+import React from 'react';
+
 interface FormInputProps {
   label: string;
   type: string;
   placeholder: string;
-  value: string | number;
-  onChange: (
+  value?: string | number;
+  onChange?: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
 }
